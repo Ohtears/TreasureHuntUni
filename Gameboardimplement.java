@@ -1,0 +1,135 @@
+import java.util.List;
+import java.util.Random;
+
+public class Gameboardimplement implements Gameboard {
+    
+    // private static final int DENSITY = 2;
+
+    private static final int SIZE = 10;
+
+    private static final double BOMB_PERCENTAGE = 0.3;
+    private static final double WALL_PERCENTAGE = 0.2;
+
+    private Tile[][] tiles;
+    
+    private List<Player> players;
+
+    public Gameboardimplement(List<Player> players) {
+        this.tiles = new Tile[SIZE][SIZE];
+        this.players = players;
+        initializeBoard();
+    }
+    private void initializeBoard() {
+
+        int totalTiles = SIZE * SIZE;
+        int totalBombs = (int) (totalTiles * BOMB_PERCENTAGE);
+        int totalWalls = (int) (totalTiles * WALL_PERCENTAGE);
+
+        int bombs = totalBombs / 3; 
+        int walls = totalWalls / 2; 
+
+        placeTiles(bombs, Tile.Type.BOMB);
+        placeTiles(bombs, Tile.Type.TNT);
+        placeTiles(bombs, Tile.Type.MOUSETRAP);
+
+        placeTiles(walls, Tile.Type.UNBREAKABLEWALL);
+        placeTiles(walls, Tile.Type.BREAKABLEWALL);
+
+        placeTiles(1, Tile.Type.TREASURE);
+
+        placeTiles(1, Tile.Type.SPIN);
+
+        fillRemainingTiles();
+    }
+
+    private void placeTiles(int totalTiles, Tile.Type tileType) {
+        Random random = new Random();
+        while (totalTiles > 0) {
+            int x = random.nextInt(SIZE);
+            int y = random.nextInt(SIZE);
+
+            if (!((x == 0 || x == SIZE - 1) && (y == 0 || y == SIZE - 1))){
+                // && checkDensity(x, y, tileType)
+                tiles[x][y] = new Tile(x, y, tileType);
+                tiles[0][0] = new Tile(0, 9, Tile.Type.PORTAL);
+                tiles[9][9] = new Tile(0, 9, Tile.Type.PORTAL);
+
+                totalTiles--;
+            }
+        }
+    }
+
+    // private boolean checkDensity(int x, int y, Tile.Type tileType) {
+    //     int trapBombCount = 0;
+    //     for (int i = x; i < x + 2; i++) {
+    //         for (int j = y; j < y + 2; j++) {
+    //             if (i >= 0 && i < SIZE && j >= 0 && j < SIZE) {
+    //                 if (tiles[i][j] != null && (tiles[i][j].getType() == Tile.Type.BOMB || tiles[i][j].getType() == Tile.Type.MOUSETRAP || tiles[i][j].getType() == Tile.Type.TNT || tiles[i][j].getType() == Tile.Type.UNBREAKABLEWALL || tiles[i][j].getType() == Tile.Type.BREAKABLEWALL)) {
+    //                     trapBombCount++;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return trapBombCount <= DENSITY;
+    // }
+
+    private void fillRemainingTiles() {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (tiles[i][j] == null) {
+                    tiles[i][j] = new Tile(i, j, Tile.Type.EMPTY);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void display() {
+        StringBuilder board = new StringBuilder();
+        
+        board.append("╔═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╗\n");
+
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                board.append("║ ").append(tiles[i][j].getSymbol()).append(" ");
+            }
+            board.append("║\n");
+
+            if (i < SIZE - 1) {
+                board.append("╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n");
+            }
+        }
+
+        board.append("╚═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╝\n");
+
+        System.out.println(board.toString());
+    }
+
+
+    @Override
+    public void setTrap(int playerId, int x, int y) {
+        // Set trap logic
+    }
+
+    @Override
+    public boolean destroyTrap(int playerId, int x, int y) {
+        // Destroy trap logic
+        return true;
+    }
+
+    @Override
+    public boolean longJump(int playerId, int x, int y) {
+        // Long jump logic
+        return true;
+    }
+
+    @Override
+    public void saveGame(String filePath) {
+        // Save game logic
+    }
+
+    @Override
+    public void loadGame(String filePath) {
+        // Load game logic
+    }
+}
