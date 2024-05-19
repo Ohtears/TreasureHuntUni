@@ -1,21 +1,33 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.Point;
+
 
 public class Main{
 
     public static void main(String [] args){
 
-        System.err.println("Welcome");
+        System.out.println("Welcome to Treasure Hunt. Please proceed by choosing one of the following options");
 
-        List<Player> players = new ArrayList<>();
+        System.out.println("Press '1' for 2 player mode and '2' for 4 player mode");
 
-        players.add(new Player(1, new Point(0, 0))); 
-        players.add(new Player(2, new Point(9, 9))); 
+        int choice_main_menu = InputHandler.choice_number();
 
-        Gameboard gameBoard = new Gameboardimplement(players);
+        switch (choice_main_menu) {
 
-        gameBoard.display();
+            case 1: 
+
+                Game.start_newgame();
+
+            break;
+
+            case 2:
+            break;
+
+            case 3:
+            System.out.println("You are exiting Treasurehunt. Thank you for playing! ! ");
+            System.exit(0);
+
+        }
+
+
 
     }
 

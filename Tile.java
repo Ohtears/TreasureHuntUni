@@ -31,7 +31,7 @@ public class Tile {
             case BOMB:
                 return "\u001B[31m" + "BMB" + "\u001B[0m";
             case TREASURE:
-                return "\u001B[32m" + "TRS" + "\u001B[0m";
+                return "\u001B[32m" + "TSR" + "\u001B[0m";
             case SPIN:
                 return "\u001B[36m" + "SPN" + "\u001B[0m";
             case PORTAL:
