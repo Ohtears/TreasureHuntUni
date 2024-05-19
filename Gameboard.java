@@ -1,6 +1,7 @@
+import java.util.List;
 public interface Gameboard {
 
-    void display();
+    public void display(List<Player> players);
 
     void setTrap(int playerId, int x, int y);
 

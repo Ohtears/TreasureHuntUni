@@ -1,6 +1,8 @@
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.border.TitledBorder;
+
 public class Gameboardimplement implements Gameboard {
     
     // private static final int DENSITY = 2;
@@ -84,26 +86,44 @@ public class Gameboardimplement implements Gameboard {
     }
 
     @Override
-    public void display() {
+    public void display(List<Player> players) {
         StringBuilder board = new StringBuilder();
         
         board.append("╔═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╗\n");
-
+    
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                board.append("║ ").append(tiles[i][j].getSymbol()).append(" ");
+                boolean player1Present = false;
+                boolean player2Present = false;
+                for (Player player : players) {
+                    if (player.getPosition().x == j && player.getPosition().y == i) {
+                        if (player.getID() == 1) {
+                            board.append("║ PL1 ");
+                            player1Present = true;
+                        } else if (player.getID() == 2) {
+                            board.append("║ PL2 "); 
+                            player2Present = true;
+                        }
+                        break;
+                    }
+                }
+                if (!player1Present && !player2Present) {
+                    board.append("║ ").append(tiles[i][j].getSymbol()).append(" ");
+                }
             }
             board.append("║\n");
-
+    
             if (i < SIZE - 1) {
                 board.append("╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n");
             }
         }
-
+    
         board.append("╚═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╝\n");
-
+    
         System.out.println(board.toString());
     }
+    
+    
 
 
     @Override

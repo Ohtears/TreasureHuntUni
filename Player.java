@@ -20,10 +20,11 @@ public class Player {
         this.Ability_long_jump = 3;
         this.Ability_spawn_trap = 6;
 
+        
     }
 
-    public Point getPosition() {
-        return position;
+    public int getID(){
+        return id;
     }
 
     public int getScore(){
@@ -69,27 +70,110 @@ public class Player {
         this.position = position;
     }
 
-    public void moveUp() {
-        position.translate(0, -1);
+    public Point getPosition() {
+        return position;
     }
 
-    public void moveLeft() {
-        position.translate(-1, 0);
+    public boolean moveUp() {
+        if (position.y > 0) {
+            position.translate(0, -1); 
+            return true;
+        } else {
+            System.out.println("Move up not possible. Already at the top edge.");
+            return false;
+        }
     }
 
-    public void moveDown() {
-        position.translate(0, 1);
+    public boolean moveLeft() {
+        if (position.x > 0) {
+            position.translate(-1, 0);  
+            return true;
+
+        } else {
+            System.out.println("Move left not possible. Already at the left edge.");
+            return false;
+
+        }
+    }
+    public boolean moveDown() {
+        if (position.y < 9) {
+            position.translate(0, 1);  
+            return true;
+
+        } else {
+            System.out.println("Move down not possible. Already at the bottom edge.");
+            return false;
+
+        }
     }
 
-    public void moveRight() {
-        position.translate(1, 0);
+
+    public boolean moveRight() {
+        if (position.x < 9) {
+            position.translate(1, 0); 
+            return true;
+
+        } else {
+            System.out.println("Move right not possible. Already at the right edge.");
+            return false;
+
+        }
     }
 
     public void Destroy(char direction) {
     }
 
-    public void longJump(char direction) {
+    public boolean longJump(char direction) {
 
+        switch (direction){
+
+            case 'W':
+            if (position.y > 0) {
+                position.translate(0, -2); 
+                return true;
+
+            } else {
+                System.out.println("Move up not possible. Already at the top edge.");
+                return false;
+
+            }
+            
+            case 'A':
+            if (position.x > 0) {
+                position.translate(-2, 0);  
+                return true;
+
+            } else {
+                System.out.println("Move left not possible. Already at the left edge.");
+                return false;
+
+            }
+
+
+            case 'S':
+            if (position.y < 9) {
+                position.translate(0, 2);
+                return true;
+  
+            } else {
+                System.out.println("Move down not possible. Already at the bottom edge.");
+                return false;
+
+            }
+
+            case 'D':
+            if (position.x < 9) {
+                position.translate(2, 0); 
+                return true;
+
+            } else {
+                System.out.println("Move right not possible. Already at the right edge.");
+                return false;
+
+            }
+
+        }
+        return false;
     }
 
     public void spawnTrap(char direction) {

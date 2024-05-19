@@ -18,15 +18,15 @@ public class Game {
 
         Turn = 1;
 
-        Player player1 = new Player(1, new Point(0, 0));
-        Player player2 = new Player(2, new Point(9, 9));
+        Player player1 = new Player(1, new Point(0, 9));
+        Player player2 = new Player(2, new Point(9, 0));
         
         players.add(player1); 
         players.add(player2); 
 
         gameBoard = new Gameboardimplement(players);
 
-        gameBoard.display();
+        gameBoard.display(players);
 
         displayStatus(player1, player2);
 
@@ -48,7 +48,7 @@ public class Game {
                 player_turn = (Turn % 2 == 0) ? "PL2" : "PL1";
 
 
-                gameBoard.display();
+                gameBoard.display(players);
                 displayStatus(players.get(0), players.get(1));
             }
 
@@ -129,8 +129,6 @@ public class Game {
         }
         return true;
     }
-
-
 
     public static void displayStatus(Player player1, Player player2) {
 
