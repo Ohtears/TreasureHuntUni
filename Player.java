@@ -1,4 +1,5 @@
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class Player {
     private int id;
@@ -120,7 +121,90 @@ public class Player {
         }
     }
 
-    public void Destroy(char direction) {
+    public boolean Destroy(char direction ) {
+
+        switch (direction){
+
+            case 'W':
+            if (position.y > 0) {
+
+                Point position_player = getPosition(); 
+                
+                    
+                    int x = position_player.x;
+
+                    int y =  position_player.y - 1;
+
+
+                Gameboardimplement.destroyTrap(x, y);
+                return true;
+
+            } else {
+                System.out.println("Move up not possible. Already at the top edge.");
+                return false;
+
+            }
+            
+            case 'A':
+            if (position.x > 0) {
+
+                Point position_player = getPosition(); 
+                
+
+                    
+                int x = position_player.x - 1;
+
+                int y =  position_player.y ;
+
+                Gameboardimplement.destroyTrap(x, y);                
+                return true;
+
+            } else {
+                System.out.println("Move left not possible. Already at the left edge.");
+                return false;
+
+            }
+
+
+            case 'S':
+            if (position.y < 9) {
+
+                Point position_player = getPosition(); 
+                    
+                int x = position_player.x;
+
+                int y =  position_player.y + 1;
+                Gameboardimplement.destroyTrap(x, y);
+                return true;
+  
+            } else {
+                System.out.println("Move down not possible. Already at the bottom edge.");
+                return false;
+
+            }
+
+            case 'D':
+            if (position.x < 9) {
+
+                Point position_player = getPosition(); 
+                    
+                int x = position_player.x + 1;
+
+                int y =  position_player.y;
+                Gameboardimplement.destroyTrap(x, y);
+                return true;
+
+            } else {
+                System.out.println("Move right not possible. Already at the right edge.");
+                return false;
+
+            }
+
+        }
+        return false;
+
+
+
     }
 
     public boolean longJump(char direction) {

@@ -66,7 +66,7 @@ public class Game {
 
         char direction = action.charAt(0);
         char ability = action.length() > 1 ? action.charAt(1) : '\0';  
-    
+
 
         switch (direction) {
             case 'W':

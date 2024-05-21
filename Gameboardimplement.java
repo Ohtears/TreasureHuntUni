@@ -12,12 +12,12 @@ public class Gameboardimplement implements Gameboard {
     private static final double BOMB_PERCENTAGE = 0.3;
     private static final double WALL_PERCENTAGE = 0.2;
 
-    private Tile[][] tiles;
+    public static Tile[][] tiles;
     
     private List<Player> players;
 
     public Gameboardimplement(List<Player> players) {
-        this.tiles = new Tile[SIZE][SIZE];
+        Gameboardimplement.tiles = new Tile[SIZE][SIZE];
         this.players = players;
         initializeBoard();
     }
@@ -53,8 +53,8 @@ public class Gameboardimplement implements Gameboard {
             if (!((x == 0 || x == SIZE - 1) && (y == 0 || y == SIZE - 1))){
                 // && checkDensity(x, y, tileType)
                 tiles[x][y] = new Tile(x, y, tileType);
-                tiles[0][0] = new Tile(0, 9, Tile.Type.PORTAL);
-                tiles[9][9] = new Tile(0, 9, Tile.Type.PORTAL);
+                tiles[0][0] = new Tile(0, 0, Tile.Type.PORTAL);
+                tiles[9][9] = new Tile(9, 9, Tile.Type.PORTAL);
 
                 totalTiles--;
             }
@@ -108,6 +108,7 @@ public class Gameboardimplement implements Gameboard {
                     }
                 }
                 if (!player1Present && !player2Present) {
+                    System.out.println(tiles[i][j].getType());
                     board.append("║ ").append(tiles[i][j].getSymbol()).append(" ");
                 }
             }
@@ -122,25 +123,23 @@ public class Gameboardimplement implements Gameboard {
     
         System.out.println(board.toString());
     }
-    
-    
-
 
     @Override
     public void setTrap(int playerId, int x, int y) {
         // Set trap logic
     }
 
-    @Override
-    public boolean destroyTrap(int playerId, int x, int y) {
-        // Destroy trap logic
-        return true;
-    }
+    public static void destroyTrap(int x, int y) {
 
-    @Override
-    public boolean longJump(int playerId, int x, int y) {
-        // Long jump logic
-        return true;
+        if (tiles[y][x].getType() != Tile.Type.UNBREAKABLEWALL | tiles[y][x].getType() != Tile.Type.TNT){
+
+        tiles[y][x] = new Tile(y, x, Tile.Type.EMPTY);
+        }
+        else {
+
+            System.out.println("You cannot destroy this object");
+
+        }
     }
 
     @Override
