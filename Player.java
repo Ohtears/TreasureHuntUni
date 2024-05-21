@@ -24,6 +24,26 @@ public class Player {
         
     }
 
+    public void replaceAbilities(String ability){
+        switch (ability){
+
+            case "Destroy":
+                this.Ability_destruction = this.Ability_destruction - 1;
+                break;
+
+            case "Long_Jump":
+                this.Ability_long_jump = this.Ability_long_jump - 1;
+                break;
+
+
+            case "Spawn_Trap":
+                this.Ability_spawn_trap = this.Ability_spawn_trap - 1;
+                break;
+
+        }
+
+    }
+
     public int getID(){
         return id;
     }
@@ -80,7 +100,7 @@ public class Player {
             position.translate(0, -1); 
             return true;
         } else {
-            System.out.println("Move up not possible. Already at the top edge.");
+            System.out.println("Move upwards not possible. Already at the top edge.");
             return false;
         }
     }
@@ -91,7 +111,7 @@ public class Player {
             return true;
 
         } else {
-            System.out.println("Move left not possible. Already at the left edge.");
+            System.out.println("Move leftwards not possible. Already at the left edge.");
             return false;
 
         }
@@ -102,7 +122,7 @@ public class Player {
             return true;
 
         } else {
-            System.out.println("Move down not possible. Already at the bottom edge.");
+            System.out.println("Move downwards not possible. Already at the bottom edge.");
             return false;
 
         }
@@ -115,13 +135,84 @@ public class Player {
             return true;
 
         } else {
-            System.out.println("Move right not possible. Already at the right edge.");
+            System.out.println("Move rightwards not possible. Already at the right edge.");
             return false;
 
         }
     }
 
-    public boolean Destroy(char direction ) {
+    public void Destroy(char direction, Player player) {
+
+        switch (direction){
+
+            case 'W':
+            if (position.y > 0) {
+
+                Point position_player = getPosition(); 
+            
+                int x = position_player.x;
+
+                int y =  position_player.y - 1;
+
+
+                Gameboardimplement.destroyTrap(x, y, player);
+
+            } else {
+                System.out.println("You can't destroy that!");
+
+            }
+            break;
+            case 'A':
+            if (position.x > 0) {
+
+                Point position_player = getPosition(); 
+                    
+                int x = position_player.x - 1;
+
+                int y =  position_player.y ;
+
+                Gameboardimplement.destroyTrap(x, y, player);                
+
+            } else {
+                System.out.println("You can't destroy that!");
+
+            }
+            break;
+
+            case 'S':
+            if (position.y < 9) {
+
+                Point position_player = getPosition(); 
+                
+                int x = position_player.x;
+
+                int y =  position_player.y + 1;
+                Gameboardimplement.destroyTrap(x, y, player);
+
+            } else {
+                System.out.println("You can't destroy that!");
+
+            }
+            break;
+            case 'D':
+            if (position.x < 9) {
+
+                Point position_player = getPosition(); 
+                    
+                int x = position_player.x + 1;
+
+                int y =  position_player.y;
+                Gameboardimplement.destroyTrap(x, y, player);
+
+            } else {
+                System.out.println("You can't destroy that!");
+
+            }
+            break;
+        }
+    }
+    
+    public void spawnTrap(char direction, Player player) {
 
         switch (direction){
 
@@ -130,41 +221,36 @@ public class Player {
 
                 Point position_player = getPosition(); 
                 
-                    
-                    int x = position_player.x;
+                int x = position_player.x;
 
-                    int y =  position_player.y - 1;
+                int y =  position_player.y - 1;
 
 
-                Gameboardimplement.destroyTrap(x, y);
-                return true;
+                Gameboardimplement.setTrap(x, y, player);
 
             } else {
-                System.out.println("Move up not possible. Already at the top edge.");
-                return false;
+                System.out.println("You can't place it there");
 
             }
+            break;
             
             case 'A':
             if (position.x > 0) {
 
                 Point position_player = getPosition(); 
                 
-
-                    
                 int x = position_player.x - 1;
 
                 int y =  position_player.y ;
 
-                Gameboardimplement.destroyTrap(x, y);                
-                return true;
+                Gameboardimplement.setTrap(x, y, player);                
 
             } else {
-                System.out.println("Move left not possible. Already at the left edge.");
-                return false;
+                System.out.println("You can't place it there");
 
             }
-
+            break;
+            
 
             case 'S':
             if (position.y < 9) {
@@ -174,92 +260,82 @@ public class Player {
                 int x = position_player.x;
 
                 int y =  position_player.y + 1;
-                Gameboardimplement.destroyTrap(x, y);
-                return true;
-  
+                
+                Gameboardimplement.setTrap(x, y, player);
+
             } else {
-                System.out.println("Move down not possible. Already at the bottom edge.");
-                return false;
+                System.out.println("You can't place it there");
 
             }
-
+            break;
             case 'D':
             if (position.x < 9) {
 
                 Point position_player = getPosition(); 
-                    
+                
                 int x = position_player.x + 1;
-
+                
                 int y =  position_player.y;
-                Gameboardimplement.destroyTrap(x, y);
-                return true;
+                Gameboardimplement.setTrap(x, y, player);
 
             } else {
-                System.out.println("Move right not possible. Already at the right edge.");
-                return false;
-
+                System.out.println("You can't place it there");
             }
-
+            break;
         }
-        return false;
-
-
-
     }
+    
+        public void longJump(char direction, Player player) {
+    
+            switch (direction){
+    
+                case 'W':
+                if (this.position.y > 0) {
+                    if (Gameboardimplement.LongJump(player)){
+                    this.position.translate(0, -2); 
+                    this.Ability_long_jump --;
+                }
+                } else {
+                    System.out.println("LongJump upwards not possible.");
+                }
+                break;
+                case 'A':
+                if (this.position.x > 0) {
+                    if (Gameboardimplement.LongJump(player)){
+                    this.position.translate(-2, 0);  
+                    this.Ability_long_jump --;
+                    }
+                } else {
+                    System.out.println("LongJump leftwards not possible.");
 
-    public boolean longJump(char direction) {
+                }
+                break;
+    
+                case 'S':
+                if (this.position.y < 9) {
+                    if (Gameboardimplement.LongJump(player)){
 
-        switch (direction){
+                    this.position.translate(0, 2);
+                    this.Ability_long_jump --;
+                    
+                    }
+                } else {
+                    System.out.println("LongJump downwards not possible.");
+                    
+                }
+                break;
+    
+                case 'D':
+                if (this.position.x < 9) {
+                    if (Gameboardimplement.LongJump(player)){
 
-            case 'W':
-            if (position.y > 0) {
-                position.translate(0, -2); 
-                return true;
-
-            } else {
-                System.out.println("Move up not possible. Already at the top edge.");
-                return false;
-
+                    this.position.translate(2, 0); 
+                    this.Ability_long_jump --;
+                    }
+                } else {
+                    System.out.println("LongJump rightwards not possible.");
+                }
+                break;
             }
-            
-            case 'A':
-            if (position.x > 0) {
-                position.translate(-2, 0);  
-                return true;
-
-            } else {
-                System.out.println("Move left not possible. Already at the left edge.");
-                return false;
-
-            }
-
-
-            case 'S':
-            if (position.y < 9) {
-                position.translate(0, 2);
-                return true;
-  
-            } else {
-                System.out.println("Move down not possible. Already at the bottom edge.");
-                return false;
-
-            }
-
-            case 'D':
-            if (position.x < 9) {
-                position.translate(2, 0); 
-                return true;
-
-            } else {
-                System.out.println("Move right not possible. Already at the right edge.");
-                return false;
-
-            }
-
         }
-        return false;
-    }
-
-    public void spawnTrap(char direction) {
-    }
 }

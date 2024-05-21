@@ -71,12 +71,12 @@ public class Game {
         switch (direction) {
             case 'W':
                 if (ability == 'L') {
-                    currentPlayer.longJump('W');}
+                    currentPlayer.longJump('W', currentPlayer);}
                 else if (ability == 'D'){
-                currentPlayer.Destroy('W');
+                currentPlayer.Destroy('W', currentPlayer);
                } 
                else if (ability == 'S'){
-                currentPlayer.spawnTrap('S');
+                currentPlayer.spawnTrap('W', currentPlayer);
             }
                 else {
                     currentPlayer.moveUp();
@@ -84,12 +84,12 @@ public class Game {
                 break;
             case 'A':
                 if (ability == 'L') {
-                    currentPlayer.longJump('A');}
+                    currentPlayer.longJump('A', currentPlayer);}
                 else if (ability == 'D'){
-                    currentPlayer.Destroy('A');
+                    currentPlayer.Destroy('A', currentPlayer);
                 }
                 else if (ability == 'S'){
-                    currentPlayer.spawnTrap('S');
+                    currentPlayer.spawnTrap('A', currentPlayer);
                 }
                 else {
                     currentPlayer.moveLeft();
@@ -97,12 +97,12 @@ public class Game {
                 break;
             case 'S':
                 if (ability == 'L') {
-                    currentPlayer.longJump('S');}
+                    currentPlayer.longJump('S', currentPlayer);}
                 else if (ability == 'D'){
-                    currentPlayer.Destroy('S');
+                    currentPlayer.Destroy('S', currentPlayer);
                 }
                 else if (ability == 'S'){
-                    currentPlayer.spawnTrap('S');
+                    currentPlayer.spawnTrap('S', currentPlayer);
                 }
                 else {
                     currentPlayer.moveDown();
@@ -110,12 +110,12 @@ public class Game {
                 break;
             case 'D':
                 if (ability == 'L') {
-                    currentPlayer.longJump('D');}
+                    currentPlayer.longJump('D', currentPlayer);}
                 else if (ability == 'D'){
-                    currentPlayer.Destroy('D');
+                    currentPlayer.Destroy('D', currentPlayer);
                 }
                 else if (ability == 'S'){
-                    currentPlayer.spawnTrap('S');
+                    currentPlayer.spawnTrap('D', currentPlayer);
                 }
                 
                 else {

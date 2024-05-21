@@ -14,11 +14,11 @@ public class Gameboardimplement implements Gameboard {
 
     public static Tile[][] tiles;
     
-    private List<Player> players;
+    // private List<Player> players;
 
     public Gameboardimplement(List<Player> players) {
         Gameboardimplement.tiles = new Tile[SIZE][SIZE];
-        this.players = players;
+        // this.players = players;
         initializeBoard();
     }
     private void initializeBoard() {
@@ -108,7 +108,6 @@ public class Gameboardimplement implements Gameboard {
                     }
                 }
                 if (!player1Present && !player2Present) {
-                    System.out.println(tiles[i][j].getType());
                     board.append("║ ").append(tiles[i][j].getSymbol()).append(" ");
                 }
             }
@@ -124,16 +123,39 @@ public class Gameboardimplement implements Gameboard {
         System.out.println(board.toString());
     }
 
-    @Override
-    public void setTrap(int playerId, int x, int y) {
-        // Set trap logic
+    public static void setTrap(int x, int y, Player player) {
+
+        if (tiles[y][x].getType() == Tile.Type.EMPTY){
+
+            if (player.getAbilities("Spawn_Trap") > 0 ){
+
+                tiles[y][x] = new Tile(y, x, Tile.Type.MOUSETRAP);
+                player.replaceAbilities("Spawn_Trap");
+            }
+            else {
+                System.out.println("You do not have a suffient amount of traps to place");
+            }
+        }
+        else {
+            System.out.println("You cannot place a trap there");
+        }
+
     }
 
-    public static void destroyTrap(int x, int y) {
+    public static void destroyTrap(int x, int y, Player player) {
 
         if (tiles[y][x].getType() != Tile.Type.UNBREAKABLEWALL | tiles[y][x].getType() != Tile.Type.TNT){
 
-        tiles[y][x] = new Tile(y, x, Tile.Type.EMPTY);
+            if (player.getAbilities("Destroy") > 0){
+
+                tiles[y][x] = new Tile(y, x, Tile.Type.EMPTY);
+                player.replaceAbilities("Destroy");
+            }
+            else {
+                System.out.println("You can no longer destroy objects, you have used all your abilities");
+
+            }
+
         }
         else {
 
@@ -141,6 +163,20 @@ public class Gameboardimplement implements Gameboard {
 
         }
     }
+    public static boolean LongJump(Player player){
+
+        if (player.getAbilities("Long_Jump") > 0 ){
+
+            return true;
+
+        }
+        else {
+            System.out.println("You do not have a suffient amount of long jumps to use");
+            return false;
+        }
+
+    }
+
 
     @Override
     public void saveGame(String filePath) {
