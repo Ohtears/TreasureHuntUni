@@ -125,37 +125,45 @@ public class Gameboardimplement implements Gameboard {
         
         if (player.getAbilities("Spawn_Trap") > 0 ){
 
-            if (tiles[y][x].getType() == Tile.Type.EMPTY){
+            if (x == 0 && y == 9 | x==9 && y==0){
 
-                if (players.get(0).getPosition().equals(new Point(x, y))){
-                    
-                    Player playeralt = players.get(0);
-                    
-                    playeralt.setPosition(new Point(0, 9));
+                if (tiles[y][x].getType() == Tile.Type.EMPTY){
 
-                    playeralt.replaceHp(-1);
-                    playeralt.replaceScore(-5);
+                    if (players.get(0).getPosition().equals(new Point(x, y))){
+                        
+                        Player playeralt = players.get(0);
+                        
+                        playeralt.setPosition(new Point(0, 9));
+
+                        playeralt.replaceHp(-1);
+                        playeralt.replaceScore(-5);
+                    }
+                    else if (players.get(1).getPosition().equals(new Point(x, y))){
+
+                        Player playeralt = players.get(1);
+
+                        playeralt.setPosition(new Point(9, 0));
+
+                        playeralt.replaceHp(-1);
+                        playeralt.replaceScore(-5);
+                    }
+
+                    else{
+                        
+                        tiles[y][x] = new Tile(y, x, Tile.Type.MOUSETRAP);
+
                 }
-                else if (players.get(1).getPosition().equals(new Point(x, y))){
-
-                    Player playeralt = players.get(1);
-
-                    playeralt.setPosition(new Point(9, 0));
-
-                    playeralt.replaceHp(-1);
-                    playeralt.replaceScore(-5);
+                    player.replaceAbilities("Spawn_Trap");
                 }
-
-                else{
-                tiles[y][x] = new Tile(y, x, Tile.Type.MOUSETRAP);
-            }
-                player.replaceAbilities("Spawn_Trap");
-            }
-            else {
-                System.out.println("You cannot place a trap there");
-                player.replaceAbilities("Spawn_Trap");
-            }
+                else {
+                    System.out.println("You cannot place a trap there");
+                    player.replaceAbilities("Spawn_Trap");
+                }
         }
+        else{
+            System.out.println("You cannot spawn trap!");
+        }
+    }
         else {
             System.out.println("You do not have a suffient amount of traps to place");
         }
