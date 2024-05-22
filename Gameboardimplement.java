@@ -121,41 +121,43 @@ public class Gameboardimplement implements Gameboard {
 
     public static void setTrap(int x, int y, Player player) {
 
-        if (tiles[y][x].getType() == Tile.Type.EMPTY){
+        
+        if (player.getAbilities("Spawn_Trap") > 0 ){
 
-            if (player.getAbilities("Spawn_Trap") > 0 ){
+            if (tiles[y][x].getType() == Tile.Type.EMPTY){
 
                 tiles[y][x] = new Tile(y, x, Tile.Type.MOUSETRAP);
                 player.replaceAbilities("Spawn_Trap");
             }
             else {
-                System.out.println("You do not have a suffient amount of traps to place");
+                System.out.println("You cannot place a trap there");
+                player.replaceAbilities("Spawn_Trap");
             }
         }
         else {
-            System.out.println("You cannot place a trap there");
+            System.out.println("You do not have a suffient amount of traps to place");
         }
 
     }
 
     public static void destroyTrap(int x, int y, Player player) {
 
-        if (tiles[y][x].getType() != Tile.Type.UNBREAKABLEWALL | tiles[y][x].getType() != Tile.Type.TNT){
-
-            if (player.getAbilities("Destroy") > 0){
+        if (player.getAbilities("Destroy") > 0){
+            
+            if (tiles[y][x].getType() != Tile.Type.UNBREAKABLEWALL | tiles[y][x].getType() != Tile.Type.TNT){
 
                 tiles[y][x] = new Tile(y, x, Tile.Type.EMPTY);
                 player.replaceAbilities("Destroy");
             }
+            
             else {
-                System.out.println("You can no longer destroy objects, you have used all your abilities");
-
+                
+                System.out.println("You cannot destroy this object");
+                player.replaceAbilities("Destroy");
             }
-
         }
         else {
-
-            System.out.println("You cannot destroy this object");
+            System.out.println("You can no longer destroy objects, you have used all your abilities");
 
         }
     }
