@@ -252,13 +252,36 @@ public class Gameboardimplement implements Gameboard {
         return true;
     }
 
+    public static boolean collision(int x, int y, Player player, List<Player> players){
+
+        if (player.getID() == 1){
+
+            if (new Point(x,y).equals(players.get(1).getPosition())){
+
+                System.out.println("You cannot move to an occupied tile");
+                return false;
+        }}
+        else if (player.getID() == 2){
+
+            if (new Point(x,y).equals(players.get(0).getPosition())){;
+
+
+                System.out.println("You cannot move to an occupied tile");
+                return false;
+            }
+        }
+        return true;
+
+
+    }
+
     @Override
     public void saveGame(String filePath) {
-        // Save game logic
+        // Save game logic 1
     }
 
     @Override
     public void loadGame(String filePath) {
-        // Load game logic
+        // Load game logic 2
     }
 }

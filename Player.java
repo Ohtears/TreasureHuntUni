@@ -107,9 +107,11 @@ public class Player {
         return position;
     }
 
-    public void moveUp(Player player) {
+    public void moveUp(Player player, List<Player> players) {
         if (position.y > 0) {
             if (Gameboardimplement.MoveChecker(position.x, position.y - 1, player)){
+
+                if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y - 1 , player, players))
                 position.translate(0, -1); 
             }
             else {
@@ -121,9 +123,11 @@ public class Player {
         }
     }
 
-    public void moveLeft(Player player) {
+    public void moveLeft(Player player, List<Player> players) {
         if (position.x > 0) {
             if (Gameboardimplement.MoveChecker(position.x - 1, position.y, player)){
+
+                if (Gameboardimplement.collision(player.getPosition().x - 1, player.getPosition().y , player, players))
                 position.translate(-1, 0);  
             }
             else {
@@ -135,9 +139,11 @@ public class Player {
 
         }
     }
-    public void moveDown(Player player) {
+    public void moveDown(Player player, List<Player> players) {
         if (position.y < 9) {
             if (Gameboardimplement.MoveChecker(position.x, position.y + 1, player)){
+
+                if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y + 1 , player, players))
 
                 position.translate(0, 1);  
             }
@@ -151,9 +157,11 @@ public class Player {
     }
 
 
-    public void moveRight(Player player) {
+    public void moveRight(Player player, List<Player> players) {
         if (position.x < 9) {
             if (Gameboardimplement.MoveChecker(position.x + 1, position.y, player)){
+
+                if (Gameboardimplement.collision(player.getPosition().x + 1, player.getPosition().y , player, players))
 
                 position.translate(1, 0); 
             }

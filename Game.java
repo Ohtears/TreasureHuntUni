@@ -81,7 +81,7 @@ public class Game {
                 currentPlayer.spawnTrap('W', currentPlayer, players);
             }
                 else {
-                    currentPlayer.moveUp(currentPlayer);
+                    currentPlayer.moveUp(currentPlayer, players);
                 }
                 break;
             case 'A':
@@ -94,7 +94,7 @@ public class Game {
                     currentPlayer.spawnTrap('A', currentPlayer, players);
                 }
                 else {
-                    currentPlayer.moveLeft(currentPlayer);
+                    currentPlayer.moveLeft(currentPlayer, players);
                 }
                 break;
             case 'S':
@@ -107,7 +107,7 @@ public class Game {
                     currentPlayer.spawnTrap('S', currentPlayer, players);
                 }
                 else {
-                    currentPlayer.moveDown(currentPlayer);
+                    currentPlayer.moveDown(currentPlayer, players);
                 }
                 break;
             case 'D':
@@ -121,7 +121,7 @@ public class Game {
                 }
                 
                 else {
-                    currentPlayer.moveRight(currentPlayer);
+                    currentPlayer.moveRight(currentPlayer, players);
                 }
                 break;
 
