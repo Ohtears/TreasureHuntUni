@@ -1,4 +1,5 @@
 import java.awt.Point;
+import java.util.List;
 
 public class Player {
     private int id;
@@ -52,6 +53,7 @@ public class Player {
     public void replaceScore(int score){
 
         this.score = this.score + score;
+
 
     }
     public int getID(){
@@ -235,7 +237,7 @@ public class Player {
         }
     }
     
-    public void spawnTrap(char direction, Player player) {
+    public void spawnTrap(char direction, Player player, List<Player> players) {
 
         switch (direction){
 
@@ -249,7 +251,7 @@ public class Player {
                 int y =  position_player.y - 1;
 
 
-                Gameboardimplement.setTrap(x, y, player);
+                Gameboardimplement.setTrap(x, y, player, players);
 
             } else {
                 System.out.println("You can't place it there");
@@ -266,7 +268,7 @@ public class Player {
 
                 int y =  position_player.y ;
 
-                Gameboardimplement.setTrap(x, y, player);                
+                Gameboardimplement.setTrap(x, y, player, players);                
 
             } else {
                 System.out.println("You can't place it there");
@@ -284,7 +286,7 @@ public class Player {
 
                 int y =  position_player.y + 1;
                 
-                Gameboardimplement.setTrap(x, y, player);
+                Gameboardimplement.setTrap(x, y, player, players);
 
             } else {
                 System.out.println("You can't place it there");
@@ -299,7 +301,7 @@ public class Player {
                 int x = position_player.x + 1;
                 
                 int y =  position_player.y;
-                Gameboardimplement.setTrap(x, y, player);
+                Gameboardimplement.setTrap(x, y, player, players);
 
             } else {
                 System.out.println("You can't place it there");

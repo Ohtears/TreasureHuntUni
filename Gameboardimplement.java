@@ -1,3 +1,4 @@
+import java.awt.Point;
 import java.util.List;
 import java.util.Random;
 
@@ -119,14 +120,35 @@ public class Gameboardimplement implements Gameboard {
         System.out.println(board.toString());
     }
 
-    public static void setTrap(int x, int y, Player player) {
+    public static void setTrap(int x, int y, Player player, List<Player> players) {
 
         
         if (player.getAbilities("Spawn_Trap") > 0 ){
 
             if (tiles[y][x].getType() == Tile.Type.EMPTY){
 
+                if (players.get(0).getPosition().equals(new Point(x, y))){
+                    
+                    Player playeralt = players.get(0);
+                    
+                    playeralt.setPosition(new Point(0, 9));
+
+                    playeralt.replaceHp(-1);
+                    playeralt.replaceScore(-5);
+                }
+                else if (players.get(1).getPosition().equals(new Point(x, y))){
+
+                    Player playeralt = players.get(1);
+
+                    playeralt.setPosition(new Point(9, 0));
+
+                    playeralt.replaceHp(-1);
+                    playeralt.replaceScore(-5);
+                }
+
+                else{
                 tiles[y][x] = new Tile(y, x, Tile.Type.MOUSETRAP);
+            }
                 player.replaceAbilities("Spawn_Trap");
             }
             else {
@@ -139,6 +161,7 @@ public class Gameboardimplement implements Gameboard {
         }
 
     }
+
 
     public static void destroyTrap(int x, int y, Player player) {
 

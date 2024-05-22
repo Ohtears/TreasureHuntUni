@@ -78,7 +78,7 @@ public class Game {
                 currentPlayer.Destroy('W', currentPlayer);
                } 
                else if (ability == 'S'){
-                currentPlayer.spawnTrap('W', currentPlayer);
+                currentPlayer.spawnTrap('W', currentPlayer, players);
             }
                 else {
                     currentPlayer.moveUp(currentPlayer);
@@ -91,7 +91,7 @@ public class Game {
                     currentPlayer.Destroy('A', currentPlayer);
                 }
                 else if (ability == 'S'){
-                    currentPlayer.spawnTrap('A', currentPlayer);
+                    currentPlayer.spawnTrap('A', currentPlayer, players);
                 }
                 else {
                     currentPlayer.moveLeft(currentPlayer);
@@ -104,7 +104,7 @@ public class Game {
                     currentPlayer.Destroy('S', currentPlayer);
                 }
                 else if (ability == 'S'){
-                    currentPlayer.spawnTrap('S', currentPlayer);
+                    currentPlayer.spawnTrap('S', currentPlayer, players);
                 }
                 else {
                     currentPlayer.moveDown(currentPlayer);
@@ -117,7 +117,7 @@ public class Game {
                     currentPlayer.Destroy('D', currentPlayer);
                 }
                 else if (ability == 'S'){
-                    currentPlayer.spawnTrap('D', currentPlayer);
+                    currentPlayer.spawnTrap('D', currentPlayer, players);
                 }
                 
                 else {
