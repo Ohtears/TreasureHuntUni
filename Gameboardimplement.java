@@ -1,8 +1,6 @@
 import java.util.List;
 import java.util.Random;
 
-import javax.swing.border.TitledBorder;
-
 public class Gameboardimplement implements Gameboard {
     
     // private static final int DENSITY = 2;
@@ -14,11 +12,9 @@ public class Gameboardimplement implements Gameboard {
 
     public static Tile[][] tiles;
     
-    // private List<Player> players;
 
     public Gameboardimplement(List<Player> players) {
         Gameboardimplement.tiles = new Tile[SIZE][SIZE];
-        // this.players = players;
         initializeBoard();
     }
     private void initializeBoard() {
@@ -174,6 +170,57 @@ public class Gameboardimplement implements Gameboard {
             System.out.println("You do not have a suffient amount of long jumps to use");
             return false;
         }
+
+    }
+
+    public static boolean MoveChecker(int x , int y, Player player){
+
+        switch (tiles[y][x].getType()){
+
+            case Tile.Type.BREAKABLEWALL:
+
+                return false;
+            
+            case Tile.Type.UNBREAKABLEWALL:
+            
+                return false;
+
+            case Tile.Type.MOUSETRAP:
+                player.replaceHp(-1);
+                player.replaceScore(-5);
+                tiles[y][x] = new Tile(y, x, Tile.Type.EMPTY);
+
+                return true;
+
+            case Tile.Type.BOMB:
+            
+                player.replaceHp(-2);
+                player.replaceScore(-10);
+                tiles[y][x] = new Tile(y, x, Tile.Type.EMPTY);
+
+                return true;
+
+
+            case Tile.Type.TNT:
+                player.replaceHp(-3);
+                player.replaceScore(-15);
+                tiles[y][x] = new Tile(y, x, Tile.Type.EMPTY);
+
+                return true;
+        
+            case Tile.Type.TREASURE:
+
+                player.replaceScore(10);
+                tiles[y][x] = new Tile(y, x, Tile.Type.EMPTY);
+
+
+                return true;
+            default:
+                break;
+            }
+
+
+        return true;
 
     }
 

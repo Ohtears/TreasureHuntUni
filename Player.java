@@ -1,5 +1,4 @@
 import java.awt.Point;
-import java.util.ArrayList;
 
 public class Player {
     private int id;
@@ -44,6 +43,17 @@ public class Player {
 
     }
 
+    public void replaceHp(int hp){
+
+        this.hp = this.hp + hp;
+
+    }
+
+    public void replaceScore(int score){
+
+        this.score = this.score + score;
+
+    }
     public int getID(){
         return id;
     }
@@ -95,48 +105,61 @@ public class Player {
         return position;
     }
 
-    public boolean moveUp() {
+    public void moveUp(Player player) {
         if (position.y > 0) {
-            position.translate(0, -1); 
-            return true;
-        } else {
+            if (Gameboardimplement.MoveChecker(position.x, position.y - 1, player)){
+                position.translate(0, -1); 
+            }
+            else {
+                System.out.println("You cannot move there!");
+            }
+        }
+        else {
             System.out.println("Move upwards not possible. Already at the top edge.");
-            return false;
         }
     }
 
-    public boolean moveLeft() {
+    public void moveLeft(Player player) {
         if (position.x > 0) {
-            position.translate(-1, 0);  
-            return true;
-
+            if (Gameboardimplement.MoveChecker(position.x - 1, position.y, player)){
+                position.translate(-1, 0);  
+            }
+            else {
+                System.out.println("You cannot move there!");
+            }
+            
         } else {
             System.out.println("Move leftwards not possible. Already at the left edge.");
-            return false;
 
         }
     }
-    public boolean moveDown() {
+    public void moveDown(Player player) {
         if (position.y < 9) {
-            position.translate(0, 1);  
-            return true;
+            if (Gameboardimplement.MoveChecker(position.x, position.y + 1, player)){
 
+                position.translate(0, 1);  
+            }
+            else {
+                System.out.println("You cannot move there!");
+            }
         } else {
             System.out.println("Move downwards not possible. Already at the bottom edge.");
-            return false;
 
         }
     }
 
 
-    public boolean moveRight() {
+    public void moveRight(Player player) {
         if (position.x < 9) {
-            position.translate(1, 0); 
-            return true;
+            if (Gameboardimplement.MoveChecker(position.x + 1, position.y, player)){
 
+                position.translate(1, 0); 
+            }
+            else {
+                System.out.println("You cannot move there!");
+            }
         } else {
             System.out.println("Move rightwards not possible. Already at the right edge.");
-            return false;
 
         }
     }
@@ -292,9 +315,17 @@ public class Player {
                 case 'W':
                 if (this.position.y > 0) {
                     if (Gameboardimplement.LongJump(player)){
-                    this.position.translate(0, -2); 
-                    this.Ability_long_jump --;
-                }
+                        if (Gameboardimplement.MoveChecker(position.x, position.y - 2, player)){
+
+                        
+                            this.position.translate(0, -2); 
+                            this.Ability_long_jump --;
+                        }
+                        else {
+
+                            System.out.println("You cannot jump there!");
+                        }
+                        }
                 } else {
                     System.out.println("LongJump upwards not possible.");
                 }
@@ -302,8 +333,15 @@ public class Player {
                 case 'A':
                 if (this.position.x > 0) {
                     if (Gameboardimplement.LongJump(player)){
-                    this.position.translate(-2, 0);  
-                    this.Ability_long_jump --;
+                        if (Gameboardimplement.MoveChecker(position.x - 2, position.y, player)){
+
+                            this.position.translate(-2, 0);  
+                            this.Ability_long_jump --;
+                    }
+                        else {
+
+                            System.out.println("You cannot jump there!");
+                        }
                     }
                 } else {
                     System.out.println("LongJump leftwards not possible.");
@@ -314,10 +352,17 @@ public class Player {
                 case 'S':
                 if (this.position.y < 9) {
                     if (Gameboardimplement.LongJump(player)){
+                        if (Gameboardimplement.MoveChecker(position.x, position.y + 2, player)){
 
-                    this.position.translate(0, 2);
-                    this.Ability_long_jump --;
-                    
+
+                            this.position.translate(0, 2);
+                            this.Ability_long_jump --;
+                        }
+                        else {
+
+                            System.out.println("You cannot jump there!");
+                        }
+                            
                     }
                 } else {
                     System.out.println("LongJump downwards not possible.");
@@ -328,14 +373,21 @@ public class Player {
                 case 'D':
                 if (this.position.x < 9) {
                     if (Gameboardimplement.LongJump(player)){
+                        if (Gameboardimplement.MoveChecker(position.x + 2, position.y, player)){
 
-                    this.position.translate(2, 0); 
-                    this.Ability_long_jump --;
+
+                            this.position.translate(2, 0); 
+                            this.Ability_long_jump --;
+                        }
+                        else {
+
+                            System.out.println("You cannot jump there!");
+                        }
                     }
                 } else {
                     System.out.println("LongJump rightwards not possible.");
                 }
                 break;
-            }
+            
         }
-}
+    }}
