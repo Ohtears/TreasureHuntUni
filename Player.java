@@ -109,13 +109,18 @@ public class Player {
 
     public void moveUp(Player player, List<Player> players) {
         if (position.y > 0) {
-            if (Gameboardimplement.MoveChecker(position.x, position.y - 1, player)){
+            if (position.x != 0 | position.y -1 != 9 && position.x != 9 | position.y - 1 != 9){
+                if (Gameboardimplement.MoveChecker(position.x, position.y - 1, player)){
 
-                if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y - 1 , player, players))
-                position.translate(0, -1); 
+                    if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y - 1 , player, players))
+                    position.translate(0, -1); 
+                }
+                else {
+                    System.out.println("You cannot move there!");
+                }
             }
-            else {
-                System.out.println("You cannot move there!");
+            else{
+                System.out.println("You cannot move to spawn");
             }
         }
         else {
@@ -125,15 +130,20 @@ public class Player {
 
     public void moveLeft(Player player, List<Player> players) {
         if (position.x > 0) {
-            if (Gameboardimplement.MoveChecker(position.x - 1, position.y, player)){
+            if (position.x - 1 != 0 | position.y != 9 && position.x - 1 != 9 | position.y != 0){
 
-                if (Gameboardimplement.collision(player.getPosition().x - 1, player.getPosition().y , player, players))
-                position.translate(-1, 0);  
-            }
-            else {
-                System.out.println("You cannot move there!");
-            }
-            
+                if (Gameboardimplement.MoveChecker(position.x - 1, position.y, player)){
+
+                    if (Gameboardimplement.collision(player.getPosition().x - 1, player.getPosition().y , player, players))
+                    position.translate(-1, 0);  
+                }
+                else {
+                    System.out.println("You cannot move there!");
+                }
+        }
+        else{
+            System.out.println("You cannot move to spawn");
+        }
         } else {
             System.out.println("Move leftwards not possible. Already at the left edge.");
 
@@ -141,15 +151,21 @@ public class Player {
     }
     public void moveDown(Player player, List<Player> players) {
         if (position.y < 9) {
-            if (Gameboardimplement.MoveChecker(position.x, position.y + 1, player)){
+            if (position.x != 0 | position.y +1 != 9 && position.x != 9 | position.y + 1 != 0){
 
-                if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y + 1 , player, players))
+                if (Gameboardimplement.MoveChecker(position.x, position.y + 1, player)){
 
-                position.translate(0, 1);  
+                    if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y + 1 , player, players))
+
+                    position.translate(0, 1);  
+                }
+                else {
+                    System.out.println("You cannot move there!");
             }
-            else {
-                System.out.println("You cannot move there!");
-            }
+        }
+        else{
+            System.out.println("You cannot move to spawn");
+        }
         } else {
             System.out.println("Move downwards not possible. Already at the bottom edge.");
 
@@ -159,15 +175,21 @@ public class Player {
 
     public void moveRight(Player player, List<Player> players) {
         if (position.x < 9) {
-            if (Gameboardimplement.MoveChecker(position.x + 1, position.y, player)){
+            if (position.x + 1 != 0 | position.y != 9 && position.x + 1 != 9 | position.y != 0){
 
-                if (Gameboardimplement.collision(player.getPosition().x + 1, player.getPosition().y , player, players))
+                if (Gameboardimplement.MoveChecker(position.x + 1, position.y, player)){
 
-                position.translate(1, 0); 
+                    if (Gameboardimplement.collision(player.getPosition().x + 1, player.getPosition().y , player, players))
+
+                    position.translate(1, 0); 
             }
             else {
                 System.out.println("You cannot move there!");
             }
+        }
+        else{
+            System.out.println("You cannot move to spawn");
+        }
         } else {
             System.out.println("Move rightwards not possible. Already at the right edge.");
 
