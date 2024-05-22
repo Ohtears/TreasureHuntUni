@@ -13,6 +13,8 @@ public class Game {
 
     private static Gameboard gameBoard;
 
+    private static final int  game_req_2_win = 100; 
+
 
     public static void start_newgame(){
 
@@ -53,7 +55,7 @@ public class Game {
             }
 
 
-            if (isGameOver()) {
+            if (isGameOver(players)) {
                 System.out.println("Game over!");
                 break;
             }
@@ -142,7 +144,25 @@ public class Game {
     
     }
 
-    public static boolean isGameOver() {
+    public static boolean isGameOver(List<Player> player) {
+
+        if (player.get(0).getHp() == 0){
+            System.out.println("Player1 has died.\n Player 2 WON" );
+            return true;
+        }
+        else if (player.get(1).getHp() == 0){
+            System.out.println("Player2 has died.\n Player 1 WON");
+            return true;
+        }
+        else if (player.get(0).getScore() == game_req_2_win){
+            System.out.println("Player 1 has reached "+ game_req_2_win +  "points. Winner winner chicken dinner");
+            return true;
+        }
+        else if (player.get(1).getScore() == game_req_2_win){
+
+            System.out.println("Player 2 has reacehd " + game_req_2_win + "points. Winner winner chicken dinner");
+            return true;
+        }
 
         return false;
     }

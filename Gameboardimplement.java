@@ -213,17 +213,19 @@ public class Gameboardimplement implements Gameboard {
                 player.replaceScore(10);
                 tiles[y][x] = new Tile(y, x, Tile.Type.EMPTY);
 
+                Random random = new Random();
+
+                int xnew = random.nextInt(SIZE);
+                int ynew = random.nextInt(SIZE);
+
+                tiles[xnew][ynew] = new Tile(xnew, ynew, Tile.Type.TREASURE);
 
                 return true;
             default:
                 break;
             }
-
-
         return true;
-
     }
-
 
     @Override
     public void saveGame(String filePath) {
