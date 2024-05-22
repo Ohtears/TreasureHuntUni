@@ -44,6 +44,25 @@ public class Player {
 
     }
 
+    public void replaceAbilitiesforspin(String ability){
+        switch (ability){
+
+            case "Destroy":
+                this.Ability_destruction = this.Ability_destruction + 1;
+                break;
+
+            case "Long_Jump":
+                this.Ability_long_jump = this.Ability_long_jump + 1;
+                break;
+
+
+            case "Spawn_Trap":
+                this.Ability_spawn_trap = this.Ability_spawn_trap + 1;
+                break;
+
+        }
+
+    }
     public void replaceHp(int hp){
 
         this.hp = this.hp + hp;
@@ -110,7 +129,7 @@ public class Player {
     public void moveUp(Player player, List<Player> players) {
         if (position.y > 0) {
             if (position.x != 0 | position.y -1 != 9 && position.x != 9 | position.y - 1 != 9){
-                if (Gameboardimplement.MoveChecker(position.x, position.y - 1, player)){
+                if (Gameboardimplement.MoveChecker(position.x, position.y - 1, player, players)){
 
                     if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y - 1 , player, players))
                     position.translate(0, -1); 
@@ -132,7 +151,7 @@ public class Player {
         if (position.x > 0) {
             if (position.x - 1 != 0 | position.y != 9 && position.x - 1 != 9 | position.y != 0){
 
-                if (Gameboardimplement.MoveChecker(position.x - 1, position.y, player)){
+                if (Gameboardimplement.MoveChecker(position.x - 1, position.y, player, players)){
 
                     if (Gameboardimplement.collision(player.getPosition().x - 1, player.getPosition().y , player, players))
                     position.translate(-1, 0);  
@@ -153,7 +172,7 @@ public class Player {
         if (position.y < 9) {
             if (position.x != 0 | position.y +1 != 9 && position.x != 9 | position.y + 1 != 0){
 
-                if (Gameboardimplement.MoveChecker(position.x, position.y + 1, player)){
+                if (Gameboardimplement.MoveChecker(position.x, position.y + 1, player, players)){
 
                     if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y + 1 , player, players))
 
@@ -177,7 +196,7 @@ public class Player {
         if (position.x < 9) {
             if (position.x + 1 != 0 | position.y != 9 && position.x + 1 != 9 | position.y != 0){
 
-                if (Gameboardimplement.MoveChecker(position.x + 1, position.y, player)){
+                if (Gameboardimplement.MoveChecker(position.x + 1, position.y, player, players)){
 
                     if (Gameboardimplement.collision(player.getPosition().x + 1, player.getPosition().y , player, players))
 
@@ -340,14 +359,14 @@ public class Player {
         }
     }
     
-        public void longJump(char direction, Player player) {
+        public void longJump(char direction, Player player, List<Player> players) {
     
             switch (direction){
     
                 case 'W':
                 if (this.position.y > 0) {
                     if (Gameboardimplement.LongJump(player)){
-                        if (Gameboardimplement.MoveChecker(position.x, position.y - 2, player)){
+                        if (Gameboardimplement.MoveChecker(position.x, position.y - 2, player, players)){
 
                         
                             this.position.translate(0, -2); 
@@ -365,7 +384,7 @@ public class Player {
                 case 'A':
                 if (this.position.x > 0) {
                     if (Gameboardimplement.LongJump(player)){
-                        if (Gameboardimplement.MoveChecker(position.x - 2, position.y, player)){
+                        if (Gameboardimplement.MoveChecker(position.x - 2, position.y, player, players)){
 
                             this.position.translate(-2, 0);  
                             this.Ability_long_jump --;
@@ -384,7 +403,7 @@ public class Player {
                 case 'S':
                 if (this.position.y < 9) {
                     if (Gameboardimplement.LongJump(player)){
-                        if (Gameboardimplement.MoveChecker(position.x, position.y + 2, player)){
+                        if (Gameboardimplement.MoveChecker(position.x, position.y + 2, player, players)){
 
 
                             this.position.translate(0, 2);
@@ -405,7 +424,7 @@ public class Player {
                 case 'D':
                 if (this.position.x < 9) {
                     if (Gameboardimplement.LongJump(player)){
-                        if (Gameboardimplement.MoveChecker(position.x + 2, position.y, player)){
+                        if (Gameboardimplement.MoveChecker(position.x + 2, position.y, player, players)){
 
 
                             this.position.translate(2, 0); 

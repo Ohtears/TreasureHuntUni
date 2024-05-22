@@ -73,7 +73,7 @@ public class Game {
         switch (direction) {
             case 'W':
                 if (ability == 'L') {
-                    currentPlayer.longJump('W', currentPlayer);}
+                    currentPlayer.longJump('W', currentPlayer, players);}
                 else if (ability == 'D'){
                 currentPlayer.Destroy('W', currentPlayer);
                } 
@@ -86,7 +86,7 @@ public class Game {
                 break;
             case 'A':
                 if (ability == 'L') {
-                    currentPlayer.longJump('A', currentPlayer);}
+                    currentPlayer.longJump('A', currentPlayer, players);}
                 else if (ability == 'D'){
                     currentPlayer.Destroy('A', currentPlayer);
                 }
@@ -99,7 +99,7 @@ public class Game {
                 break;
             case 'S':
                 if (ability == 'L') {
-                    currentPlayer.longJump('S', currentPlayer);}
+                    currentPlayer.longJump('S', currentPlayer, players);}
                 else if (ability == 'D'){
                     currentPlayer.Destroy('S', currentPlayer);
                 }
@@ -112,7 +112,7 @@ public class Game {
                 break;
             case 'D':
                 if (ability == 'L') {
-                    currentPlayer.longJump('D', currentPlayer);}
+                    currentPlayer.longJump('D', currentPlayer, players);}
                 else if (ability == 'D'){
                     currentPlayer.Destroy('D', currentPlayer);
                 }

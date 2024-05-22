@@ -1,4 +1,5 @@
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -175,7 +176,7 @@ public class Gameboardimplement implements Gameboard {
 
         if (player.getAbilities("Destroy") > 0){
             
-            if (tiles[y][x].getType() != Tile.Type.UNBREAKABLEWALL | tiles[y][x].getType() != Tile.Type.TNT){
+            if (tiles[y][x].getType().equals(Tile.Type.BREAKABLEWALL) | tiles[y][x].getType().equals(Tile.Type.BOMB) | tiles[y][x].getType().equals(Tile.Type.MOUSETRAP)){
 
                 tiles[y][x] = new Tile(y, x, Tile.Type.EMPTY);
                 player.replaceAbilities("Destroy");
@@ -195,7 +196,7 @@ public class Gameboardimplement implements Gameboard {
     public static boolean LongJump(Player player){
 
         if (player.getAbilities("Long_Jump") > 0 ){
-
+            player.replaceAbilities("Long_Jump");
             return true;
 
         }
@@ -206,7 +207,7 @@ public class Gameboardimplement implements Gameboard {
 
     }
 
-    public static boolean MoveChecker(int x , int y, Player player){
+    public static boolean MoveChecker(int x , int y, Player player, List<Player> players){
 
         switch (tiles[y][x].getType()){
 
@@ -254,6 +255,21 @@ public class Gameboardimplement implements Gameboard {
                 tiles[xnew][ynew] = new Tile(xnew, ynew, Tile.Type.TREASURE);
 
                 return true;
+            case Tile.Type.SPIN:
+                tiles[y][x] = new Tile(y, x, Tile.Type.EMPTY);
+
+                Random Random = new Random();
+
+                int xnew_spin = Random.nextInt(SIZE);
+                int ynew_spin = Random.nextInt(SIZE);
+
+                tiles[xnew_spin][ynew_spin] = new Tile(xnew_spin, ynew_spin, Tile.Type.SPIN);
+
+                Gameboardimplement.Spin(player, players);
+
+                return true;
+
+
             default:
                 break;
             }
@@ -279,8 +295,119 @@ public class Gameboardimplement implements Gameboard {
             }
         }
         return true;
+    }
+
+    public static void Spin(Player player, List<Player> players){
+
+        Random random = new Random();
+
+        int randomNumber = random.nextInt(100) + 1; 
+
+        if (randomNumber <= 10) {
+           
+            int randomNumber1 = random.nextInt(3);
+
+            if (randomNumber1 == 0) {
+                
+                player.replaceAbilitiesforspin("Destroy"); // 33.33%                      
+            } 
+            else if (randomNumber1 == 1) {
+                player.replaceAbilitiesforspin("Long_Jump"); // 33.33%
+            } 
+            else {
+
+                player.replaceAbilitiesforspin("Spawn_Trap"); // 33.33%
+
+            }
+
+        System.out.println("You have been awarded an extra ability!!!");
+
+        }
+        else if (randomNumber <= 50) { //40%
+
+            if (player.getID() == 1){
+                player.setPosition(new Point(9, 0));
+            }
+            else if (player.getID() == 2){
+                player.setPosition(new Point(0, 9));
+            }
+        System.out.println("You have been teleported to your starting position!");            
+        } 
+
+        else if (randomNumber <= 60) { //10%
+
+            if (players.get(0).getID() == (player.getID())){
+                
+                Player playeralt = players.get(1);
+                        
+                playeralt.setPosition(new Point(9, 0));
+            
+        }
+            else if (players.get(1).getID() == player.getID()){
+
+                Player playeralt = players.get(0);
+                        
+                playeralt.setPosition(new Point(0, 9));
 
 
+            }
+        System.out.println("Your opponent has been teleported to their starting position!");
+        } 
+        else if (randomNumber <= 80) { // 20%
+            
+            Gameboardimplement.placeRandomTNTs(3);
+
+            System.out.println("3 TNT have been spawned across the map");
+
+        } 
+        else { 
+            Gameboardimplement.removeRandomTraps(3); // 20%
+            
+            System.out.println("3 random traps have been removed from the map!");
+        
+        }
+
+    }
+
+    public static void placeRandomTNTs(int count) {
+        List<Point> emptyTiles = new ArrayList<>();
+
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (tiles[i][j].getType() == Tile.Type.EMPTY) {
+                    emptyTiles.add(new Point(j, i));
+                }
+            }
+        }
+
+        Random random = new Random();
+        for (int i = 0; i < count && !emptyTiles.isEmpty(); i++) {
+            int randomIndex = random.nextInt(emptyTiles.size());
+            Point selectedPoint = emptyTiles.remove(randomIndex);
+
+            tiles[selectedPoint.y][selectedPoint.x] = new Tile(selectedPoint.y, selectedPoint.x, Tile.Type.TNT);
+        }
+
+    }
+    public static void removeRandomTraps(int count) {
+        List<Point> trapTiles = new ArrayList<>();
+
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                Tile.Type type = tiles[i][j].getType();
+                if (type .equals(Tile.Type.BOMB)  || type.equals(Tile.Type.MOUSETRAP ) || type.equals(Tile.Type.TNT)) {
+                    trapTiles.add(new Point(j, i));
+                }
+            }
+        }
+
+        Random random = new Random();
+        for (int i = 0; i < count && !trapTiles.isEmpty(); i++) {
+            int randomIndex = random.nextInt(trapTiles.size());
+            Point selectedPoint = trapTiles.remove(randomIndex);
+
+            tiles[selectedPoint.y][selectedPoint.x] = new Tile(selectedPoint.y ,selectedPoint.x, Tile.Type.EMPTY);
+        }
     }
 
     @Override
