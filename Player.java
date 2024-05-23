@@ -134,9 +134,9 @@ public class Player {
                     if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y - 1 , player, players))
                     position.translate(0, -1); 
                 }
-                else {
-                    System.out.println("You cannot move there!");
-                }
+                // else {
+                //     System.out.println("You cannot move there!");
+                // }
             }
             else{
                 System.out.println("You cannot move to spawn");
@@ -156,9 +156,9 @@ public class Player {
                     if (Gameboardimplement.collision(player.getPosition().x - 1, player.getPosition().y , player, players))
                     position.translate(-1, 0);  
                 }
-                else {
-                    System.out.println("You cannot move there!");
-                }
+                // else {
+                //     System.out.println("You cannot move there!");
+                // }
         }
         else{
             System.out.println("You cannot move to spawn");
@@ -178,9 +178,9 @@ public class Player {
 
                     position.translate(0, 1);  
                 }
-                else {
-                    System.out.println("You cannot move there!");
-            }
+            //     else {
+            //         System.out.println("You cannot move there!");
+            // }
         }
         else{
             System.out.println("You cannot move to spawn");
@@ -202,9 +202,9 @@ public class Player {
 
                     position.translate(1, 0); 
             }
-            else {
-                System.out.println("You cannot move there!");
-            }
+            // else {
+            //     System.out.println("You cannot move there!");
+            // }
         }
         else{
             System.out.println("You cannot move to spawn");
@@ -370,15 +370,19 @@ public class Player {
 
                         
                             this.position.translate(0, -2); 
-                            this.Ability_long_jump --;
+                            // this.Ability_long_jump --;
                         }
-                        else {
+                        // else {
 
-                            System.out.println("You cannot jump there!");
-                        }
+                        //     System.out.println("You cannot jump there!");
+                            // this.Ability_long_jump --;
+
+                        //}
                         }
                 } else {
                     System.out.println("LongJump upwards not possible.");
+                    // this.Ability_long_jump --;
+
                 }
                 break;
                 case 'A':
@@ -387,15 +391,18 @@ public class Player {
                         if (Gameboardimplement.MoveChecker(position.x - 2, position.y, player, players)){
 
                             this.position.translate(-2, 0);  
-                            this.Ability_long_jump --;
+                            // this.Ability_long_jump --;
                     }
-                        else {
+                        // else {
 
-                            System.out.println("You cannot jump there!");
-                        }
+                        //     System.out.println("You cannot jump there!");
+                            // this.Ability_long_jump --;
+
+                       //}
                     }
                 } else {
                     System.out.println("LongJump leftwards not possible.");
+                    // this.Ability_long_jump --;
 
                 }
                 break;
@@ -407,12 +414,12 @@ public class Player {
 
 
                             this.position.translate(0, 2);
-                            this.Ability_long_jump --;
+                            // this.Ability_long_jump --;
                         }
-                        else {
+                        // else {
 
-                            System.out.println("You cannot jump there!");
-                        }
+                        //     System.out.println("You cannot jump there!");
+                        //}
                             
                     }
                 } else {
@@ -428,12 +435,12 @@ public class Player {
 
 
                             this.position.translate(2, 0); 
-                            this.Ability_long_jump --;
+                            // this.Ability_long_jump --;
                         }
-                        else {
+                        // else {
 
-                            System.out.println("You cannot jump there!");
-                        }
+                        //     System.out.println("You cannot jump there!");
+                        //}
                     }
                 } else {
                     System.out.println("LongJump rightwards not possible.");

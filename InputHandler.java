@@ -11,8 +11,4 @@ public class InputHandler {
         return Integer.parseInt(scanner.nextLine());
 
     }
-
-
-
-
 }

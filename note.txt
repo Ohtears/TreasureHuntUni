@@ -1,5 +1,4 @@
-
--portal
+-bug spin spawn nashodan bad raftane rosh
 
 -dark mode 
 
@@ -10,3 +9,5 @@
 -dorost krdn main menu doroste hesabi
 
 - 4 player mdoe
+
+-DELETE kardan scanner

@@ -197,6 +197,7 @@ public class Gameboardimplement implements Gameboard {
 
         if (player.getAbilities("Long_Jump") > 0 ){
             player.replaceAbilities("Long_Jump");
+
             return true;
 
         }
@@ -249,10 +250,16 @@ public class Gameboardimplement implements Gameboard {
 
                 Random random = new Random();
 
-                int xnew = random.nextInt(SIZE);
-                int ynew = random.nextInt(SIZE);
 
+                int xnew, ynew;
+
+                do {
+                    xnew = random.nextInt(SIZE);
+                    ynew = random.nextInt(SIZE);
+                } while ((xnew == 9 && ynew == 0) || (xnew == 0 && ynew == 9));
+        
                 tiles[xnew][ynew] = new Tile(xnew, ynew, Tile.Type.TREASURE);
+            
 
                 return true;
             case Tile.Type.SPIN:
@@ -260,15 +267,36 @@ public class Gameboardimplement implements Gameboard {
 
                 Random Random = new Random();
 
-                int xnew_spin = Random.nextInt(SIZE);
-                int ynew_spin = Random.nextInt(SIZE);
+                int xnew_spin, ynew_spin;
 
+                do {
+                    xnew_spin = Random.nextInt(SIZE);
+                    ynew_spin = Random.nextInt(SIZE);
+                } while ((xnew_spin == 9 && ynew_spin == 0) || (xnew_spin == 0 && ynew_spin == 9));
+        
                 tiles[xnew_spin][ynew_spin] = new Tile(xnew_spin, ynew_spin, Tile.Type.SPIN);
+            
 
-                Gameboardimplement.Spin(player, players);
+                if (Gameboardimplement.Spin(player, players)){
 
+                    return false;
+
+                }
+                
                 return true;
 
+
+            case Tile.Type.PORTAL:
+
+                if (x==0 && y==0){
+
+                    player.setPosition(new Point(9, 9));
+                    return false;
+                }
+                else if (x==9 && y==9){
+                    player.setPosition(new Point(0, 0));
+                    return false;
+                }   
 
             default:
                 break;
@@ -297,7 +325,7 @@ public class Gameboardimplement implements Gameboard {
         return true;
     }
 
-    public static void Spin(Player player, List<Player> players){
+    public static boolean Spin(Player player, List<Player> players){
 
         Random random = new Random();
 
@@ -321,18 +349,20 @@ public class Gameboardimplement implements Gameboard {
             }
 
         System.out.println("You have been awarded an extra ability!!!");
-
+        return false;
         }
         else if (randomNumber <= 50) { //40%
 
             if (player.getID() == 1){
-                player.setPosition(new Point(9, 0));
-            }
-            else if (player.getID() == 2){
                 player.setPosition(new Point(0, 9));
             }
-        System.out.println("You have been teleported to your starting position!");            
+            else if (player.getID() == 2){
+                player.setPosition(new Point(9, 0));
+            }
+        System.out.println("You have been teleported to your starting position!");        
+        return true;    
         } 
+
 
         else if (randomNumber <= 60) { //10%
 
@@ -352,19 +382,20 @@ public class Gameboardimplement implements Gameboard {
 
             }
         System.out.println("Your opponent has been teleported to their starting position!");
+        return false;
         } 
         else if (randomNumber <= 80) { // 20%
             
             Gameboardimplement.placeRandomTNTs(3);
 
             System.out.println("3 TNT have been spawned across the map");
-
+            return false;
         } 
         else { 
             Gameboardimplement.removeRandomTraps(3); // 20%
             
             System.out.println("3 random traps have been removed from the map!");
-        
+            return false;
         }
 
     }
@@ -409,6 +440,7 @@ public class Gameboardimplement implements Gameboard {
             tiles[selectedPoint.y][selectedPoint.x] = new Tile(selectedPoint.y ,selectedPoint.x, Tile.Type.EMPTY);
         }
     }
+
 
     @Override
     public void saveGame(String filePath) {
