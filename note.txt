@@ -1,7 +1,5 @@
 -bug spin spawn nashodan bad raftane rosh
 
--dark mode 
-
 - log 
 
 -save /load
