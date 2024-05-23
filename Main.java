@@ -1,12 +1,17 @@
-
-
 public class Main{
 
     public static void main(String [] args){
 
-        System.out.println("Welcome to Treasure Hunt. Please proceed by choosing one of the following options");
-
-        System.out.println("Press '1' for 2 player mode and '2' for 4 player mode");
+        System.out.println();
+        System.out.println("==============================");
+        System.out.println("        GAME MAIN MENU");
+        System.out.println("==============================\n");
+        System.out.println("Welcome to the Game!\n");
+        System.out.println("1. Start New Game 2 player mode");
+        System.out.println("2. Start New Game 4 player mode");
+        System.out.println("3. Load Game");
+        System.out.println("0. Exit\n");
+        System.out.print("Choose an option: ");
 
         int choice_main_menu = InputHandler.choice_number();
 
@@ -19,17 +24,22 @@ public class Main{
             break;
 
             case 2:
-            break;
+
+                // 4 player mode
+                break;
 
             case 3:
-            System.out.println("You are exiting Treasurehunt. Thank you for playing! ! ");
-            System.exit(0);
+
+            FileHandler.loadGameState("gameState.json");
+
+            break;
+
+            case 0:
+
+            System.out.println("You are exiting TreasureHunt. Thank you for playing");
 
         }
 
 
-
-    }
-
-
+}
 }

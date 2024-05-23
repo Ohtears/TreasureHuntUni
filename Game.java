@@ -13,8 +13,7 @@ public class Game {
 
     private static Gameboard gameBoard;
 
-    private static final int  game_req_2_win = 100; 
-
+    private static final int  game_req_2_win = 30; 
 
     public static void start_newgame(){
 
@@ -53,6 +52,9 @@ public class Game {
 
                 gameBoard.display(players, currentPlayer);
                 displayStatus(players.get(0), players.get(1));
+
+                FileHandler.saveGameState("gameState.json", Gameboardimplement.tiles, players, Turn, player_turn);
+
             }
 
 
@@ -69,6 +71,11 @@ public class Game {
 
         char direction = action.charAt(0);
         char ability = action.length() > 1 ? action.charAt(1) : '\0';  
+
+        if (direction == '0'){
+            System.out.println("You are returning to the main menu");
+            Main.main(null);
+        }
 
 
         switch (direction) {
@@ -168,6 +175,16 @@ public class Game {
         return false;
     }
 
+    public static void continueLoadedGame(List<Player> players, Tile[][] tiles, int turn, String player_turn) {
+        Game.players = players;
+        Game.Turn = turn;
+        Game.player_turn = player_turn;
+        Game.gameBoard = new Gameboardimplement(players);
+        Gameboardimplement.setTiles(tiles);
 
-
+        Player currentPlayer = (turn % 2 == 0) ? players.get(1) : players.get(0);
+        gameBoard.display(players, currentPlayer);
+        displayStatus(players.get(0), players.get(1));
+        gameLoop();
+    }
 }

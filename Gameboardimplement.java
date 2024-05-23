@@ -14,6 +14,9 @@ public class Gameboardimplement implements Gameboard {
 
     public static Tile[][] tiles;
     
+    public static void setTiles(Tile[][] loadedTiles) {
+        Gameboardimplement.tiles = loadedTiles;
+    }
 
     public Gameboardimplement(List<Player> players) {
         Gameboardimplement.tiles = new Tile[SIZE][SIZE];
@@ -445,13 +448,9 @@ public class Gameboardimplement implements Gameboard {
     }
 
 
-    @Override
-    public void saveGame(String filePath) {
-        // Save game logic 1
-    }
+    // @Override
+    // public void saveGame(String filePath) {
+    //     // Save game logic 1
+    // }
 
-    @Override
-    public void loadGame(String filePath) {
-        // Load game logic 2
-    }
 }

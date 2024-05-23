@@ -9,13 +9,10 @@ public class Tile {
 
     private Type type;
     
-    private boolean isVisible;
-
     public Tile(int x, int y, Type type) {
         this.x = x;
         this.y = y;
         this.type = type;
-        this.isVisible = false;
     }
 
     public Tile.Type getType() {

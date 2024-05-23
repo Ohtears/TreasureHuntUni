@@ -63,10 +63,34 @@ public class Player {
         }
 
     }
+
+    public void changeLong_Jump(int Abilitylongjump){
+
+        this.Ability_long_jump = Abilitylongjump;
+
+    }
+
+    public void changeDestroy(int AbilityDestroy){
+
+        this.Ability_destruction = AbilityDestroy;
+
+    }
+    public void changeSpawn_Trap(int Abilityspawntrap){
+
+        this.Ability_spawn_trap = Abilityspawntrap;
+
+    }
+
+
     public void replaceHp(int hp){
 
         this.hp = this.hp + hp;
 
+    }
+
+    public void changehp(int hp){
+
+        this.hp = hp;
     }
 
     public void replaceScore(int score){
@@ -75,6 +99,12 @@ public class Player {
 
 
     }
+    public void changeScore(int score){
+
+        this.score = score;
+
+    }
+
     public int getID(){
         return id;
     }
@@ -448,4 +478,7 @@ public class Player {
                 break;
             
         }
-    }}
+    }
+
+
+}
