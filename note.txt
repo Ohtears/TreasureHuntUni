@@ -1,11 +1,4 @@
--bug spin spawn nashodan bad raftane rosh
 
 - log 
 
--save /load
-
--dorost krdn main menu doroste hesabi
-
 - 4 player mdoe
-
--DELETE kardan scanner

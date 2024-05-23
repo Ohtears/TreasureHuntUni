@@ -58,7 +58,8 @@ public class FileHandler {
         try (FileWriter file = new FileWriter(filePath)) {
             file.write(gameState.toString(4));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("There was a problem loading the database for the game. Please try later");;
+            Main.main(null);
         }
     }
 
@@ -75,12 +76,15 @@ public class FileHandler {
             String player_turn = json.getString("player_turn");
 
             Game.continueLoadedGame(players, tiles, turn, player_turn);
+            
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error in JSON structure or keys");;
+            Main.main(null);
         } catch (org.json.JSONException e) {
             e.printStackTrace();
             System.out.println("Error in JSON structure or keys.");
+            Main.main(null);
         }
     }
 
@@ -90,6 +94,7 @@ public class FileHandler {
             JSONArray playersArray = json.getJSONArray("players");
             for (int i = 0; i < playersArray.length(); i++) {
                 JSONObject playerObj = playersArray.getJSONObject(i);
+                try{
                 int hp = playerObj.getInt("hp");
                 int score = playerObj.getInt("score");
                 int abilityDestruction = playerObj.getInt("abilityDestruction");
@@ -107,11 +112,17 @@ public class FileHandler {
                 player.changeLong_Jump(abilityLongJump);
                 player.changeSpawn_Trap(abilitySpawnTrap);
                 players.add(player);
-
+                
+            }
+            catch (Exception e){
+                System.out.println("No previous game found!");
+                Main.main(null);
+            }
 
             }
         } else {
             System.out.println("Key 'players' not found in JSON.");
+            Main.main(null);
         }
         return players;
     }

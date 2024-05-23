@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.awt.Point;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Game {
 
@@ -13,7 +15,7 @@ public class Game {
 
     private static Gameboard gameBoard;
 
-    private static final int  game_req_2_win = 30; 
+    private static final int  game_req_2_win = 100; 
 
     public static void start_newgame(){
 
@@ -60,6 +62,7 @@ public class Game {
 
             if (isGameOver(players)) {
                 System.out.println("Game over!");
+                Main.main(null);
                 break;
             }
         }
@@ -154,21 +157,46 @@ public class Game {
 
     public static boolean isGameOver(List<Player> player) {
 
-        if (player.get(0).getHp() == 0){
+        String filePath = "gameState.json";
+
+
+        if (player.get(0).getHp() <= 0){
             System.out.println("Player1 has died.\n Player 2 WON" );
+            try (FileWriter fileWriter = new FileWriter(filePath)) {
+                fileWriter.write("{}");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return true;
+
+
         }
-        else if (player.get(1).getHp() == 0){
+        else if (player.get(1).getHp() <= 0){
             System.out.println("Player2 has died.\n Player 1 WON");
+            try (FileWriter fileWriter = new FileWriter(filePath)) {
+                fileWriter.write("{}");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return true;
         }
-        else if (player.get(0).getScore() == game_req_2_win){
+        else if (player.get(0).getScore() >= game_req_2_win){
             System.out.println("Player 1 has reached "+ game_req_2_win +  "points. Winner winner chicken dinner");
+            try (FileWriter fileWriter = new FileWriter(filePath)) {
+                fileWriter.write("{}");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return true;
         }
-        else if (player.get(1).getScore() == game_req_2_win){
+        else if (player.get(1).getScore() >= game_req_2_win){
 
             System.out.println("Player 2 has reacehd " + game_req_2_win + "points. Winner winner chicken dinner");
+            try (FileWriter fileWriter = new FileWriter(filePath)) {
+                fileWriter.write("{}");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return true;
         }
 
