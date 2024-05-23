@@ -84,40 +84,43 @@ public class Gameboardimplement implements Gameboard {
     }
 
     @Override
-    public void display(List<Player> players) {
+    public void display(List<Player> players, Player currentPlayer) {
         StringBuilder board = new StringBuilder();
         
+        int startX = Math.max(0, currentPlayer.getPosition().x - 2);
+        int startY = Math.max(0, currentPlayer.getPosition().y - 2);
+        int endX = Math.min(SIZE, currentPlayer.getPosition().x + 3);
+        int endY = Math.min(SIZE, currentPlayer.getPosition().y + 3);
+
         board.append("╔═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╗\n");
-    
+
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                boolean player1Present = false;
-                boolean player2Present = false;
-                for (Player player : players) {
-                    if (player.getPosition().x == j && player.getPosition().y == i) {
-                        if (player.getID() == 1) {
-                            board.append("║ PL1 ");
-                            player1Present = true;
-                        } else if (player.getID() == 2) {
-                            board.append("║ PL2 "); 
-                            player2Present = true;
+                if (i >= startY && i < endY && j >= startX && j < endX) {
+                    boolean playerPresent = false;
+                    for (Player player : players) {
+                        if (player.getPosition().x == j && player.getPosition().y == i) {
+                            board.append("║ PL").append(player.getID()).append(" ");
+                            playerPresent = true;
+                            break;
                         }
-                        break;
                     }
-                }
-                if (!player1Present && !player2Present) {
-                    board.append("║ ").append(tiles[i][j].getSymbol()).append(" ");
+                    if (!playerPresent) {
+                        board.append("║ ").append(tiles[i][j].getSymbol()).append(" ");
+                    }
+                } else {
+                    board.append("║ ??? ");
                 }
             }
             board.append("║\n");
-    
+
             if (i < SIZE - 1) {
                 board.append("╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n");
             }
         }
-    
+
         board.append("╚═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╝\n");
-    
+
         System.out.println(board.toString());
     }
 

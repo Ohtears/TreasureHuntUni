@@ -28,14 +28,13 @@ public class Game {
 
         gameBoard = new Gameboardimplement(players);
 
-        gameBoard.display(players);
+        gameBoard.display(players, player1);
 
         displayStatus(player1, player2);
 
         gameLoop();
 
     }
-
     public static void gameLoop() {
 
         Scanner scanner = new Scanner(System.in);
@@ -49,8 +48,10 @@ public class Game {
 
                 player_turn = (Turn % 2 == 0) ? "PL2" : "PL1";
 
+                Player currentPlayer = (Turn % 2 == 0) ? players.get(1) : players.get(0);
 
-                gameBoard.display(players);
+
+                gameBoard.display(players, currentPlayer);
                 displayStatus(players.get(0), players.get(1));
             }
 
