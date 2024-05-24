@@ -1,3 +1,5 @@
+import java.awt.Point;
+
 public class Tile {
 
     public enum Type {
@@ -41,5 +43,16 @@ public class Tile {
                 return "\u001B[30m" + "   " + "\u001B[0m"; 
         }
     }
+
+
+    public static String TileSymbol(Point point){
+
+        char letter = (char) ('A' + point.x);
+        int number = point.y + 1;
+        System.out.println('\n');
+
+        return String.valueOf(number) + letter;
+    }
+
 
 }

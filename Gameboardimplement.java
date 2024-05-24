@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.json.JSONObject;
+
 public class Gameboardimplement implements Gameboard {
     
     // private static final int DENSITY = 2;
@@ -96,7 +98,7 @@ public class Gameboardimplement implements Gameboard {
         int endY = Math.min(SIZE, currentPlayer.getPosition().y + 3);
 
         board.append("╔═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╗\n");
-
+        
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 if (i >= startY && i < endY && j >= startX && j < endX) {
@@ -104,29 +106,34 @@ public class Gameboardimplement implements Gameboard {
                     for (Player player : players) {
                         if (player.getPosition().x == j && player.getPosition().y == i) {
                             board.append("║ PL").append(player.getID()).append(" ");
+
                             playerPresent = true;
                             break;
                         }
                     }
                     if (!playerPresent) {
                         board.append("║ ").append(tiles[i][j].getSymbol()).append(" ");
+
                     }
                 } else {
                     board.append("║ ??? ");
+
                 }
             }
-            board.append("║\n");
-
+            board.append("║ "+(i+1)+"\n");
+            
             if (i < SIZE - 1) {
-                board.append("╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n");
+                board.append("╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣───\n");
             }
         }
-
+        
         board.append("╚═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╝\n");
-
+        board.append("   A  │  B  │  C  │  D  │  E  │  F  │  G  │  H  │  I  │  J  ");
+        board.append("\n");
+        
         System.out.println(board.toString());
     }
-
+    
     public static void setTrap(int x, int y, Player player, List<Player> players) {
 
         
@@ -144,6 +151,8 @@ public class Gameboardimplement implements Gameboard {
 
                         playeralt.replaceHp(-1);
                         playeralt.replaceScore(-5);
+                        
+                        
                     }
                     else if (players.get(1).getPosition().equals(new Point(x, y))){
 
@@ -158,6 +167,11 @@ public class Gameboardimplement implements Gameboard {
                     else{
                         
                         tiles[y][x] = new Tile(y, x, Tile.Type.MOUSETRAP);
+                        JSONObject log = new JSONObject();
+                        String symbol = Tile.TileSymbol(new Point(x, y));
+                        log.put("Spawn " + "Player " + player.getID(), symbol);
+                        
+                        FileHandler.appendlog(log);
 
                 }
                     player.replaceAbilities("Spawn_Trap");
@@ -186,6 +200,11 @@ public class Gameboardimplement implements Gameboard {
 
                 tiles[y][x] = new Tile(y, x, Tile.Type.EMPTY);
                 player.replaceAbilities("Destroy");
+                JSONObject log = new JSONObject();
+                String symbol = Tile.TileSymbol(new Point(x, y));
+                log.put("Destroy " + "player " + player.getID(), symbol);
+                
+                FileHandler.appendlog(log);
             }
             
             else {
@@ -447,10 +466,5 @@ public class Gameboardimplement implements Gameboard {
         }
     }
 
-
-    // @Override
-    // public void saveGame(String filePath) {
-    //     // Save game logic 1
-    // }
 
 }

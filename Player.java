@@ -1,6 +1,8 @@
 import java.awt.Point;
 import java.util.List;
 
+import org.json.JSONObject;
+
 public class Player {
     private int id;
     private int hp;
@@ -162,7 +164,13 @@ public class Player {
                 if (Gameboardimplement.MoveChecker(position.x, position.y - 1, player, players)){
 
                     if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y - 1 , player, players))
-                    position.translate(0, -1); 
+                        position.translate(0, -1); 
+                        JSONObject log = new JSONObject();
+                        String symbol = Tile.TileSymbol(new Point(position));
+                        log.put("movement " + "Player " + player.getID(), symbol);
+                        
+                        FileHandler.appendlog(log);
+                    
                 }
                 // else {
                 //     System.out.println("You cannot move there!");
@@ -185,6 +193,12 @@ public class Player {
 
                     if (Gameboardimplement.collision(player.getPosition().x - 1, player.getPosition().y , player, players))
                     position.translate(-1, 0);  
+                    JSONObject log = new JSONObject();
+                    String symbol = Tile.TileSymbol(new Point(position));
+                    log.put("movement " + "Player " + player.getID(), symbol);
+                    
+                    FileHandler.appendlog(log);
+
                 }
                 // else {
                 //     System.out.println("You cannot move there!");
@@ -207,6 +221,12 @@ public class Player {
                     if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y + 1 , player, players))
 
                     position.translate(0, 1);  
+                    JSONObject log = new JSONObject();
+                    String symbol = Tile.TileSymbol(new Point(position));
+                    log.put("movement " + "Player " + player.getID(), symbol);
+                    
+                    FileHandler.appendlog(log);
+
                 }
             //     else {
             //         System.out.println("You cannot move there!");
@@ -231,6 +251,12 @@ public class Player {
                     if (Gameboardimplement.collision(player.getPosition().x + 1, player.getPosition().y , player, players))
 
                     position.translate(1, 0); 
+                    JSONObject log = new JSONObject();
+                    String symbol = Tile.TileSymbol(new Point(position));
+                    log.put("movement " + "Player " + player.getID(), symbol);
+                    
+                    FileHandler.appendlog(log);
+
             }
             // else {
             //     System.out.println("You cannot move there!");
@@ -260,6 +286,7 @@ public class Player {
 
 
                 Gameboardimplement.destroyTrap(x, y, player);
+
 
             } else {
                 System.out.println("You can't destroy that!");
@@ -400,6 +427,11 @@ public class Player {
 
                         
                             this.position.translate(0, -2); 
+                            JSONObject log = new JSONObject();
+                            String symbol = Tile.TileSymbol(new Point(this.position));
+                            log.put("LongJump " + "Player " + player.getID(), symbol);
+                            
+                            FileHandler.appendlog(log);
                             // this.Ability_long_jump --;
                         }
                         // else {
@@ -421,6 +453,11 @@ public class Player {
                         if (Gameboardimplement.MoveChecker(position.x - 2, position.y, player, players)){
 
                             this.position.translate(-2, 0);  
+                            JSONObject log = new JSONObject();
+                            String symbol = Tile.TileSymbol(new Point(this.position));
+                            log.put("LongJump " + "Player " + player.getID(), symbol);
+                            FileHandler.appendlog(log);
+
                             // this.Ability_long_jump --;
                     }
                         // else {
@@ -444,6 +481,11 @@ public class Player {
 
 
                             this.position.translate(0, 2);
+                            JSONObject log = new JSONObject();
+                            String symbol = Tile.TileSymbol(new Point(this.position));
+                            log.put("LongJump " + "Player " + player.getID(), symbol);
+                            FileHandler.appendlog(log);
+
                             // this.Ability_long_jump --;
                         }
                         // else {
@@ -465,6 +507,11 @@ public class Player {
 
 
                             this.position.translate(2, 0); 
+                            JSONObject log = new JSONObject();
+                            String symbol = Tile.TileSymbol(new Point(this.position));
+                            log.put("LongJump " + "Player " + player.getID(), symbol);
+                            FileHandler.appendlog(log);
+
                             // this.Ability_long_jump --;
                         }
                         // else {

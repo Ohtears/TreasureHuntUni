@@ -1,3 +1,5 @@
+import java.awt.Point;
+
 public class Main{
 
     public static void main(String [] args){
@@ -10,6 +12,7 @@ public class Main{
         System.out.println("1. Start New Game 2 player mode");
         System.out.println("2. Start New Game 4 player mode");
         System.out.println("3. Load Game");
+        System.out.println("4. Load latest Game log");
         System.out.println("0. Exit\n");
         System.out.print("Choose an option: ");
 
@@ -34,12 +37,15 @@ public class Main{
 
             break;
 
+            case 4:
+
+            break;
+
+
             case 0:
 
             System.out.println("You are exiting TreasureHunt. Thank you for playing");
 
         }
-
-
 }
 }

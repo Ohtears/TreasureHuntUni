@@ -6,6 +6,9 @@ import java.awt.Point;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -104,6 +107,9 @@ public class FileHandler {
                 int x = playerObj.getJSONObject("position").getInt("x");
                 int y = playerObj.getJSONObject("position").getInt("y");
 
+                
+
+
                 Player player = new Player(id, new Point(x, y));
 
                 player.changehp(hp);
@@ -143,4 +149,54 @@ public class FileHandler {
         }
         return tiles;
     }
+
+
+    public static void GameloggerSave(){
+
+        try {
+            FileWriter fileWriter = new FileWriter("GameLog.json", true); 
+           
+        } catch (IOException e) {
+            System.out.println("No game log found");
+        }
+
+
+    }
+
+    public static void Gameloggerreset(){
+
+        String filePath = "GameLog.json";
+
+        try (FileWriter fileWriter = new FileWriter(filePath)) {
+            fileWriter.write("{}");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void appendlog(JSONObject logdata){
+
+
+
+            try {
+            String jsonData = new String(Files.readAllBytes(Paths.get("GameLog.json")));
+            JSONArray jsonArray;
+            if (jsonData.trim().isEmpty()) {
+                jsonArray = new JSONArray();
+            } else {
+                jsonArray = new JSONArray(jsonData);
+            }
+            jsonArray.put(logdata);
+            FileWriter fileWriter = new FileWriter("GameLog.json");
+            fileWriter.write(jsonArray.toString(4)); 
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+
 }
