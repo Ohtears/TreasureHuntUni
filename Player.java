@@ -162,121 +162,185 @@ public class Player {
         return position;
     }
 
-    public void moveUp(Player player, List<Player> players) {
-        if (position.y > 0) {
-            if (position.x != 0 | position.y -1 != 9 && position.x != 9 | position.y - 1 != 9){
-                if (Gameboardimplement.MoveChecker(position.x, position.y - 1, player, players)){
+    public void moveUp(Player player, List<Player> players, Playermode mode) {
 
-                    if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y - 1 , player, players))
-                        position.translate(0, -1); 
+        int boardWidth=10;
+        int boardHeight=10;
+
+        switch (mode){
+
+            case TWOPLAYER_MODE:
+                boardWidth = 10;
+                boardHeight = 10;
+            break;
+
+            case FOURPLAYER_MODE:
+                boardWidth = 20;
+                boardHeight = 10;
+            
+            break;
+
+        }
+
+
+
+        if (player.getPosition().y > 0) {
+            if ((player.getPosition().x != 0 || player.getPosition().y - 1 != boardHeight - 1) &&
+                (player.getPosition().x != boardWidth - 1 || player.getPosition().y - 1 != 0)) {
+    
+                if (Gameboardimplement.MoveChecker(player.getPosition().x, player.getPosition().y - 1, player, players)) {
+                    if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y - 1, player, players)) {
+                        player.getPosition().translate(0, -1);
                         JSONObject log = new JSONObject();
-                        String symbol = Tile.TileSymbol(new Point(position));
+                        String symbol = Tile.TileSymbol(new Point(player.getPosition()));
                         log.put("movement " + "Player " + player.getID(), symbol);
-                        
                         FileHandler.appendlog(log);
-                    
+                    }
                 }
-                // else {
-                //     System.out.println("You cannot move there!");
-                // }
-            }
-            else{
+            } else {
                 System.out.println("You cannot move to spawn");
             }
-        }
-        else {
+        } else {
             System.out.println("Move upwards not possible. Already at the top edge.");
         }
     }
 
-    public void moveLeft(Player player, List<Player> players) {
-        if (position.x > 0) {
-            if (position.x - 1 != 0 | position.y != 9 && position.x - 1 != 9 | position.y != 0){
+    public void moveLeft(Player player, List<Player> players, Playermode mode) {
+        int boardWidth = 10;
+        int boardHeight = 10;
 
-                if (Gameboardimplement.MoveChecker(position.x - 1, position.y, player, players)){
+        switch (mode){
 
-                    if (Gameboardimplement.collision(player.getPosition().x - 1, player.getPosition().y , player, players))
-                    position.translate(-1, 0);  
-                    JSONObject log = new JSONObject();
-                    String symbol = Tile.TileSymbol(new Point(position));
-                    log.put("movement " + "Player " + player.getID(), symbol);
-                    
-                    FileHandler.appendlog(log);
+            case TWOPLAYER_MODE:
+                boardWidth = 10;
+                boardHeight = 10;
+            break;
 
+            case FOURPLAYER_MODE:
+                boardWidth = 20;
+                boardHeight = 10;
+            
+            break;
+
+        }
+        if (player.getPosition().x > 0) {
+            if ((player.getPosition().x - 1 != 0 || player.getPosition().y != boardHeight - 1) &&
+                (player.getPosition().x - 1 != boardWidth - 1 || player.getPosition().y != 0)) {
+    
+                if (Gameboardimplement.MoveChecker(player.getPosition().x - 1, player.getPosition().y, player, players)) {
+                    if (Gameboardimplement.collision(player.getPosition().x - 1, player.getPosition().y, player, players)) {
+                        player.getPosition().translate(-1, 0);
+                        JSONObject log = new JSONObject();
+                        String symbol = Tile.TileSymbol(new Point(player.getPosition()));
+                        log.put("movement " + "Player " + player.getID(), symbol);
+                        FileHandler.appendlog(log);
+                    }
                 }
-                // else {
-                //     System.out.println("You cannot move there!");
-                // }
-        }
-        else{
-            System.out.println("You cannot move to spawn");
-        }
+            } else {
+                System.out.println("You cannot move to spawn");
+            }
         } else {
             System.out.println("Move leftwards not possible. Already at the left edge.");
-
         }
     }
-    public void moveDown(Player player, List<Player> players) {
-        if (position.y < 9) {
-            if (position.x != 0 | position.y +1 != 9 && position.x != 9 | position.y + 1 != 0){
+    public void moveDown(Player player, List<Player> players, Playermode mode) {
+        int boardWidth = 10;
+        int boardHeight = 10;
 
-                if (Gameboardimplement.MoveChecker(position.x, position.y + 1, player, players)){
+        switch (mode){
 
-                    if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y + 1 , player, players))
+            case TWOPLAYER_MODE:
+                boardWidth = 10;
+                boardHeight = 10;
+            break;
 
-                    position.translate(0, 1);  
-                    JSONObject log = new JSONObject();
-                    String symbol = Tile.TileSymbol(new Point(position));
-                    log.put("movement " + "Player " + player.getID(), symbol);
-                    
-                    FileHandler.appendlog(log);
+            case FOURPLAYER_MODE:
+                boardWidth = 20;
+                boardHeight = 10;
+            
+            break;
 
+        }
+        if (player.getPosition().y < boardHeight - 1) {
+            if ((player.getPosition().x != 0 || player.getPosition().y + 1 != boardHeight - 1) &&
+                (player.getPosition().x != boardWidth - 1 || player.getPosition().y + 1 != 0)) {
+    
+                if (Gameboardimplement.MoveChecker(player.getPosition().x, player.getPosition().y + 1, player, players)) {
+                    if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y + 1, player, players)) {
+                        player.getPosition().translate(0, 1);
+                        JSONObject log = new JSONObject();
+                        String symbol = Tile.TileSymbol(new Point(player.getPosition()));
+                        log.put("movement " + "Player " + player.getID(), symbol);
+                        FileHandler.appendlog(log);
+                    }
                 }
-            //     else {
-            //         System.out.println("You cannot move there!");
-            // }
-        }
-        else{
-            System.out.println("You cannot move to spawn");
-        }
+            } else {
+                System.out.println("You cannot move to spawn");
+            }
         } else {
             System.out.println("Move downwards not possible. Already at the bottom edge.");
-
         }
     }
 
 
-    public void moveRight(Player player, List<Player> players) {
-        if (position.x < 9) {
-            if (position.x + 1 != 0 | position.y != 9 && position.x + 1 != 9 | position.y != 0){
+    public void moveRight(Player player, List<Player> players, Playermode mode) {
+        int boardWidth=10;
+        int boardHeight=10;
 
-                if (Gameboardimplement.MoveChecker(position.x + 1, position.y, player, players)){
+        switch (mode){
 
-                    if (Gameboardimplement.collision(player.getPosition().x + 1, player.getPosition().y , player, players))
+            case TWOPLAYER_MODE:
+                boardWidth = 10;
+                boardHeight = 10;
+            break;
 
-                    position.translate(1, 0); 
-                    JSONObject log = new JSONObject();
-                    String symbol = Tile.TileSymbol(new Point(position));
-                    log.put("movement " + "Player " + player.getID(), symbol);
-                    
-                    FileHandler.appendlog(log);
+            case FOURPLAYER_MODE:
+                boardWidth = 20;
+                boardHeight = 10;
+            
+            break;
 
+        }
+
+        if (player.getPosition().x < boardWidth - 1) {
+            if ((player.getPosition().x + 1 != 0 || player.getPosition().y != boardHeight - 1) &&
+                (player.getPosition().x + 1 != boardWidth - 1 || player.getPosition().y != 0)) {
+    
+                if (Gameboardimplement.MoveChecker(player.getPosition().x + 1, player.getPosition().y, player, players)) {
+                    if (Gameboardimplement.collision(player.getPosition().x + 1, player.getPosition().y, player, players)) {
+                        player.getPosition().translate(1, 0);
+                        JSONObject log = new JSONObject();
+                        String symbol = Tile.TileSymbol(new Point(player.getPosition()));
+                        log.put("movement " + "Player " + player.getID(), symbol);
+                        FileHandler.appendlog(log);
+                    }
+                }
+            } else {
+                System.out.println("You cannot move to spawn");
             }
-            // else {
-            //     System.out.println("You cannot move there!");
-            // }
-        }
-        else{
-            System.out.println("You cannot move to spawn");
-        }
         } else {
             System.out.println("Move rightwards not possible. Already at the right edge.");
-
         }
     }
 
-    public void Destroy(char direction, Player player) {
+    public void Destroy(char direction, Player player, Playermode mode) {
+        int boardWidth=10;
+        int boardHeight=10;
+    
+        switch (mode){
 
+            case TWOPLAYER_MODE:
+                boardWidth = 10;
+                boardHeight = 10;
+            break;
+
+            case FOURPLAYER_MODE:
+                boardWidth = 20;
+                boardHeight = 10;
+            
+            break;
+
+        }
         switch (direction){
 
             case 'W':
@@ -315,7 +379,7 @@ public class Player {
             break;
 
             case 'S':
-            if (position.y < 9) {
+            if (position.y < boardHeight - 1) {
 
                 Point position_player = getPosition(); 
                 
@@ -330,7 +394,7 @@ public class Player {
             }
             break;
             case 'D':
-            if (position.x < 9) {
+            if (position.x < boardWidth - 1) {
 
                 Point position_player = getPosition(); 
                     
@@ -347,7 +411,25 @@ public class Player {
         }
     }
     
-    public void spawnTrap(char direction, Player player, List<Player> players) {
+    public void spawnTrap(char direction, Player player, List<Player> players, Playermode mode) {
+
+        int boardWidth=10;
+        int boardHeight=10;
+    
+        switch (mode){
+
+            case TWOPLAYER_MODE:
+                boardWidth = 10;
+                boardHeight = 10;
+            break;
+
+            case FOURPLAYER_MODE:
+                boardWidth = 20;
+                boardHeight = 10;
+            
+            break;
+
+        }
 
         switch (direction){
 
@@ -388,7 +470,7 @@ public class Player {
             
 
             case 'S':
-            if (position.y < 9) {
+            if (position.y < boardHeight) {
 
                 Point position_player = getPosition(); 
                     
@@ -404,7 +486,7 @@ public class Player {
             }
             break;
             case 'D':
-            if (position.x < 9) {
+            if (position.x < boardWidth) {
 
                 Point position_player = getPosition(); 
                 
@@ -420,8 +502,24 @@ public class Player {
         }
     }
     
-        public void longJump(char direction, Player player, List<Player> players) {
-    
+        public void longJump(char direction, Player player, List<Player> players, Playermode mode) {
+            int boardWidth=10;
+            int boardHeight=10;
+        
+            switch (mode){
+
+                case TWOPLAYER_MODE:
+                    boardWidth = 10;
+                    boardHeight = 10;
+                break;
+
+                case FOURPLAYER_MODE:
+                    boardWidth = 20;
+                    boardHeight = 10;
+                
+                break;
+
+            }
             switch (direction){
     
                 case 'W':
@@ -479,7 +577,7 @@ public class Player {
                 break;
     
                 case 'S':
-                if (this.position.y < 9) {
+                if (this.position.y < boardHeight) {
                     if (Gameboardimplement.LongJump(player)){
                         if (Gameboardimplement.MoveChecker(position.x, position.y + 2, player, players)){
 
@@ -505,7 +603,7 @@ public class Player {
                 break;
     
                 case 'D':
-                if (this.position.x < 9) {
+                if (this.position.x < boardWidth) {
                     if (Gameboardimplement.LongJump(player)){
                         if (Gameboardimplement.MoveChecker(position.x + 2, position.y, player, players)){
 

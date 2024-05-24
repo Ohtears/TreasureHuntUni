@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.awt.Point;
@@ -26,14 +27,14 @@ public class Game {
 
         Player player1 = new Player(1, new Point(0,9));
         currentPlayer = player1;
-        Player player2 = new Player(2, new Point(9,0));
-
         Game.mode = mode;
 
         switch (mode){
 
             case TWOPLAYER_MODE:
-            
+
+            Player player2 = new Player(2, new Point(9,0));
+
             players.add(player1); 
             players.add(player2); 
 
@@ -49,12 +50,12 @@ public class Game {
 
             case FOURPLAYER_MODE:
             
-
-            Player player3 = new Player(3, new Point(0,0));
-            Player player4 = new Player(4, new Point(9,9));
+            Player player_2 = new Player(2, new Point(19,0));
+            Player player3 = new Player(3, new Point(19,9));
+            Player player4 = new Player(4, new Point(0,0));
 
             players.add(player1);
-            players.add(player2);
+            players.add(player_2);
             players.add(player3);
             players.add(player4);
 
@@ -122,55 +123,55 @@ public class Game {
         switch (direction) {
             case 'W':
                 if (ability == 'L') {
-                    currentPlayer.longJump('W', currentPlayer, players);}
+                    currentPlayer.longJump('W', currentPlayer, players, mode);}
                 else if (ability == 'D'){
-                currentPlayer.Destroy('W', currentPlayer);
+                currentPlayer.Destroy('W', currentPlayer, mode);
                } 
                else if (ability == 'S'){
-                currentPlayer.spawnTrap('W', currentPlayer, players);
+                currentPlayer.spawnTrap('W', currentPlayer, players, mode);
             }
                 else {
-                    currentPlayer.moveUp(currentPlayer, players);
+                    currentPlayer.moveUp(currentPlayer, players, mode);
                 }
                 break;
             case 'A':
                 if (ability == 'L') {
-                    currentPlayer.longJump('A', currentPlayer, players);}
+                    currentPlayer.longJump('A', currentPlayer, players, mode);}
                 else if (ability == 'D'){
-                    currentPlayer.Destroy('A', currentPlayer);
+                    currentPlayer.Destroy('A', currentPlayer, mode);
                 }
                 else if (ability == 'S'){
-                    currentPlayer.spawnTrap('A', currentPlayer, players);
+                    currentPlayer.spawnTrap('A', currentPlayer, players, mode);
                 }
                 else {
-                    currentPlayer.moveLeft(currentPlayer, players);
+                    currentPlayer.moveLeft(currentPlayer, players, mode);
                 }
                 break;
             case 'S':
                 if (ability == 'L') {
-                    currentPlayer.longJump('S', currentPlayer, players);}
+                    currentPlayer.longJump('S', currentPlayer, players, mode);}
                 else if (ability == 'D'){
-                    currentPlayer.Destroy('S', currentPlayer);
+                    currentPlayer.Destroy('S', currentPlayer, mode);
                 }
                 else if (ability == 'S'){
-                    currentPlayer.spawnTrap('S', currentPlayer, players);
+                    currentPlayer.spawnTrap('S', currentPlayer, players, mode);
                 }
                 else {
-                    currentPlayer.moveDown(currentPlayer, players);
+                    currentPlayer.moveDown(currentPlayer, players, mode);
                 }
                 break;
             case 'D':
                 if (ability == 'L') {
-                    currentPlayer.longJump('D', currentPlayer, players);}
+                    currentPlayer.longJump('D', currentPlayer, players, mode);}
                 else if (ability == 'D'){
-                    currentPlayer.Destroy('D', currentPlayer);
+                    currentPlayer.Destroy('D', currentPlayer, mode);
                 }
                 else if (ability == 'S'){
-                    currentPlayer.spawnTrap('D', currentPlayer, players);
+                    currentPlayer.spawnTrap('D', currentPlayer, players, mode);
                 }
                 
                 else {
-                    currentPlayer.moveRight(currentPlayer, players);
+                    currentPlayer.moveRight(currentPlayer, players, mode);
                 }
                 break;
 
@@ -210,34 +211,28 @@ public class Game {
     }
 
     public static boolean isGameOver() {
-
         String filePath = "gameState.json";
-
-        for (Player player : players){
-
-            if(player.getScore() >= game_req_2_win){
-                System.out.println("Player"+player.getID()+ " has reached maximum score. Winner winner chicken dinner");
+    
+        Iterator<Player> iterator = players.iterator();
+        while (iterator.hasNext()) {
+            Player player = iterator.next();
+    
+            if (player.getScore() >= game_req_2_win) {
+                System.out.println("Player" + player.getID() + " has reached maximum score. Winner winner chicken dinner");
                 reset();
                 return true;
-            }
-            else if (player.getHp() <= 0){
-                System.out.println("Player"+player.getID()+" has died.\n");
+            } else if (player.getHp() <= 0) {
+                System.out.println("Player" + player.getID() + " has died.\n");
+                iterator.remove(); // Safe removal using iterator
                 
-                
-                players.remove(player);
-                
-                if (players.size() == 1){
-
-                    System.out.println("Player"+players.get(0).getID()+ " is the last man standing. Winner winner chicken dinner");
-
+                if (players.size() == 1) {
+                    System.out.println("Player" + players.get(0).getID() + " is the last man standing. Winner winner chicken dinner");
                     reset();
                     return true;
-
                 }
-            }   
-            
+            }
         }
-
+    
         return false;
     }
 

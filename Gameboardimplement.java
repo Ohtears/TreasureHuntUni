@@ -123,8 +123,8 @@ public class Gameboardimplement implements Gameboard {
         StringBuilder board = new StringBuilder();
         int startX = Math.max(0, currentPlayer.getPosition().x - 2);
         int startY = Math.max(0, currentPlayer.getPosition().y - 2);
-        int endX = Math.min(sizex, currentPlayer.getPosition().x + 3);
-        int endY = Math.min(sizey, currentPlayer.getPosition().y + 3);
+        int endX = Math.min(sizey, currentPlayer.getPosition().x + 3);
+        int endY = Math.min(sizex, currentPlayer.getPosition().y + 3);
 
         board.append("╔");
         for (int i=0; i < sizey - 1; i++){
@@ -134,7 +134,6 @@ public class Gameboardimplement implements Gameboard {
         }
         board.append("═════╗\n");
 
-        // board.append("╔═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╗\n");
         
         for (int i = 0; i < sizex; i++) {
             for (int j = 0; j < sizey; j++) {
@@ -166,7 +165,6 @@ public class Gameboardimplement implements Gameboard {
                 }
                 board.append("═════╣───\n");
 
-                // board.append("╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣───\n");
             }
         }
         board.append("╚");
@@ -182,10 +180,6 @@ public class Gameboardimplement implements Gameboard {
             board.append("│  " + asci+ "  ");
         }
 
-
-        // board.append("╚═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╝\n");
-        // board.append("   A  │  B  │  C  │  D  │  E  │  F  │  G  │  H  │  I  │  J  ");
-        // board.append("\n");
         
         System.out.println(board.toString());
     }
