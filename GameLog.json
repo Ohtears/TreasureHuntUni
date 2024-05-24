@@ -15,5 +15,10 @@
     {"movement Player 1": "9D"},
     {"movement Player 2": "2H"},
     {"LongJump Player 1": "10C"},
-    {"LongJump Player 2": "3J"}
+    {"LongJump Player 2": "3J"},
+    {"Spawn Player 1": "10B"},
+    {"movement Player 2": "1I"},
+    {"Spawn Player 1": "10B"},
+    {"movement Player 2": "2J"},
+    {"LongJump Player 1": "8A"}
 ]

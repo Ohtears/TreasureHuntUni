@@ -139,7 +139,7 @@ public class Gameboardimplement implements Gameboard {
         
         if (player.getAbilities("Spawn_Trap") > 0 ){
 
-            if (x == 0 && y == 9 | x==9 && y==0){
+            if ((x != 0 | y != 9) && (x!=9 | y!=0)){
 
                 if (tiles[y][x].getType() == Tile.Type.EMPTY){
 
