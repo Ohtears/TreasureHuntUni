@@ -472,26 +472,37 @@ public class Gameboardimplement implements Gameboard {
             Random random3 = new Random();
 
             int randomindex = random3.nextInt(players.size());
+            do {
+                randomindex = random.nextInt(players.size());
+            } while (players.get(randomindex).getID() == player.getID());
 
             Player randomPlayer = players.get(randomindex);
 
+            switch (randomPlayer.getID()){
 
+                case 1:
+                randomPlayer.setPosition(new Point(0,9));
 
-            if (players.get(0).getID() == (player.getID())){
-                
-                Player playeralt = players.get(1);
-                        
-                playeralt.setPosition(new Point(9, 0));
-            
-        }
-            else if (players.get(1).getID() == player.getID()){
+                break;
 
-                Player playeralt = players.get(0);
-                        
-                playeralt.setPosition(new Point(0, 9));
+                case 2:
+                randomPlayer.setPosition(new Point(9,0));
+
+                break;
+
+                case 3:
+                randomPlayer.setPosition(new Point(19, 9));
+
+                break;
+
+                case 4:
+                randomPlayer.setPosition(new Point(0, 0));
+
+                break;
 
 
             }
+
         System.out.println("Your opponent has been teleported to their starting position!");
         return false;
         } 
