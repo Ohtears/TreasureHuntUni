@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class Game {
 
+
     public static String player_turn = "PL1";
 
     public static int Turn;
@@ -64,11 +65,12 @@ public class Game {
 
             if (isGameOver(players)) {
                 System.out.println("Game over!");
-                Main.main(null);
                 break;
             }
+        
         }
-        scanner.close();
+
+        // scanner.close();
     }
 
     public static boolean processAction(String action) {
@@ -164,56 +166,27 @@ public class Game {
 
         if (player.get(0).getHp() <= 0){
             System.out.println("Player1 has died.\n Player 2 WON" );
-            try (FileWriter fileWriter = new FileWriter(filePath)) {
-                fileWriter.write("{}");
-                try (FileWriter filewriter2 = new FileWriter("GameLog.json")){
-                    filewriter2.write("[]");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            reset();
             return true;
 
 
         }
         else if (player.get(1).getHp() <= 0){
             System.out.println("Player2 has died.\n Player 1 WON");
-            try (FileWriter fileWriter = new FileWriter(filePath)) {
-                fileWriter.write("{}");
-                try (FileWriter filewriter2 = new FileWriter("GameLog.json")){
-                    filewriter2.write("[]");
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            reset();
             return true;
         }
         else if (player.get(0).getScore() >= game_req_2_win){
             System.out.println("Player 1 has reached "+ game_req_2_win +  "points. Winner winner chicken dinner");
-            try (FileWriter fileWriter = new FileWriter(filePath)) {
-                fileWriter.write("{}");
-                try (FileWriter filewriter2 = new FileWriter("GameLog.json")){
-                    filewriter2.write("[]");
-                }
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            reset();
+
             return true;
         }
         else if (player.get(1).getScore() >= game_req_2_win){
 
             System.out.println("Player 2 has reacehd " + game_req_2_win + "points. Winner winner chicken dinner");
-            try (FileWriter fileWriter = new FileWriter(filePath)) {
-                fileWriter.write("{}");
-                try (FileWriter filewriter2 = new FileWriter("GameLog.json")){
-                    filewriter2.write("[]");
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            reset();
             return true;
         }
 
@@ -232,4 +205,28 @@ public class Game {
         displayStatus(players.get(0), players.get(1));
         gameLoop();
     }
+
+
+    public static void reset(){
+
+        String filePath = "gameState.json";
+
+        try (FileWriter fileWriter = new FileWriter(filePath)) {
+            fileWriter.write("{}");
+            try (FileWriter filewriter2 = new FileWriter("GameLog.json")){
+                filewriter2.write("[]");
+                players.clear();
+                Turn = 1;
+                player_turn = "PL1";
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
 }

@@ -3,6 +3,9 @@ public class Main{
 
     public static void main(String [] args){
 
+        while (true){
+
+
         System.out.println();
         System.out.println("==============================");
         System.out.println("        GAME MAIN MENU");
@@ -22,7 +25,7 @@ public class Main{
             case 1: 
 
                 Game.start_newgame();
-
+                
             break;
 
             case 2:
@@ -44,7 +47,7 @@ public class Main{
             case 0:
 
             System.out.println("You are exiting TreasureHunt. Thank you for playing");
-
+            break;
         }
-}
+}}
 }
