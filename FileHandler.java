@@ -194,7 +194,7 @@ public class FileHandler {
     public static void loadlog(){
 
 
-        try (FileReader reader = new FileReader("GameState.json")) {
+        try (FileReader reader = new FileReader("GameLog.json")) {
             
             StringBuilder jsonBuilder = new StringBuilder();
             int character;
@@ -203,31 +203,11 @@ public class FileHandler {
                 jsonBuilder.append((char) character);
             }
             String jsonString = jsonBuilder.toString();
-
-            JSONArray jsonArray = new JSONArray(jsonString);
             
-            for (int i = 0; i < jsonArray.length(); i++) {
-                
-                JSONObject cardObject = jsonArray.getJSONObject(i);
-                
-                try{
-
-                int card_num = cardObject.getInt("cart_number");
-                
-
-                if (card_num == card_numberr){
-                
-                    return cardObject;    
-
-                }}
-                catch(JSONException f) //to json ye seria cart_number ndrn
-                {
-                    continue;
-                }
-
+            System.out.println(jsonString);
 
             }
-        }
+        
         catch (Exception e){
             System.out.println(e);
         }

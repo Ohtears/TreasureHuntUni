@@ -16,7 +16,7 @@ public class Game {
 
     private static Gameboard gameBoard;
 
-    private static final int  game_req_2_win = 100; 
+    private static final int game_req_2_win = 100; 
 
     public static void start_newgame(){
 
