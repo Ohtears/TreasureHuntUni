@@ -24,14 +24,15 @@ public class Main{
 
             case 1: 
 
-                Game.start_newgame();
+                Game.start_newgame(Playermode.TWOPLAYER_MODE);
                 
             break;
 
             case 2:
 
-                // 4 player mode
-                break;
+                Game.start_newgame(Playermode.FOURPLAYER_MODE);
+                
+            break;
 
             case 3:
 

@@ -26,6 +26,10 @@ public class Player {
         
     }
 
+    public Player(){
+        
+    }
+
     public void replaceAbilities(String ability){
         switch (ability){
 

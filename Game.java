@@ -8,9 +8,11 @@ import java.io.IOException;
 public class Game {
 
 
-    public static String player_turn = "PL1";
+    public static Player currentPlayer = new Player();
 
     public static int Turn;
+
+    public static Playermode mode;
 
     public static List<Player> players = new ArrayList<>();
 
@@ -18,24 +20,56 @@ public class Game {
 
     private static final int game_req_2_win = 100; 
 
-    public static void start_newgame(){
+    public static void start_newgame(Playermode mode){
 
         Turn = 1;
 
-        Player player1 = new Player(1, new Point(0, 9));
-        Player player2 = new Player(2, new Point(9, 0));
+        Player player1 = new Player(1, new Point(0,9));
+        currentPlayer = player1;
+        Player player2 = new Player(2, new Point(9,0));
+
+        Game.mode = mode;
+
+        switch (mode){
+
+            case TWOPLAYER_MODE:
+            
+            players.add(player1); 
+            players.add(player2); 
+
+            gameBoard = new Gameboardimplement(players, mode);
+
+            gameBoard.display(players, player1);
+    
+            displayStatus();
+
+            FileHandler.GameloggerSave();
+
+            break;
+
+            case FOURPLAYER_MODE:
+            
+
+            Player player3 = new Player(3, new Point(0,0));
+            Player player4 = new Player(4, new Point(9,9));
+
+            players.add(player1);
+            players.add(player2);
+            players.add(player3);
+            players.add(player4);
+
+            gameBoard = new Gameboardimplement(players, mode);
+
+            gameBoard.display(players, player1);
+
+            displayStatus();
+
+            FileHandler.GameloggerSave();
+
+            break;
         
-        players.add(player1); 
-        players.add(player2); 
 
-        gameBoard = new Gameboardimplement(players);
-
-        gameBoard.display(players, player1);
-
-        displayStatus(player1, player2);
-
-        FileHandler.GameloggerSave();
-
+        }
 
         gameLoop();
 
@@ -51,19 +85,20 @@ public class Game {
 
                 Turn++;
 
-                player_turn = (Turn % 2 == 0) ? "PL2" : "PL1";
+                // player_turn = (Turn % players.size() == 0) ? "PL2" : "PL1";
 
-                Player currentPlayer = (Turn % 2 == 0) ? players.get(1) : players.get(0);
+
+                currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % (players.size()));
 
 
                 gameBoard.display(players, currentPlayer);
-                displayStatus(players.get(0), players.get(1));
+                displayStatus();
 
-                FileHandler.saveGameState("gameState.json", Gameboardimplement.tiles, players, Turn, player_turn);
+                FileHandler.saveGameState("gameState.json", Gameboardimplement.tiles, players, Turn, "PL"+ currentPlayer.getID(), mode);
             }
 
 
-            if (isGameOver(players)) {
+            if (isGameOver()) {
                 System.out.println("Game over!");
                 break;
             }
@@ -74,7 +109,6 @@ public class Game {
     }
 
     public static boolean processAction(String action) {
-        Player currentPlayer = player_turn.equals("PL1") ? players.get(0) : players.get(1);
 
         char direction = action.charAt(0);
         char ability = action.length() > 1 ? action.charAt(1) : '\0';  
@@ -147,62 +181,92 @@ public class Game {
         return true;
     }
 
-    public static void displayStatus(Player player1, Player player2) {
+    public static void displayStatus() {
 
-        System.out.println("PL1" + " Score: " + player1.getScore() + " | " + "PL2" + " Score: " + player2.getScore());
-        System.out.println("PL1" + " HP: " + player1.getHp() + " | " + "PL2" + " HP: " + player2.getHp());
-        System.out.println("PL1" + " Abilities -> " + player1.getAbilities() + "\nPL2" + " Abilities -> " + player2.getAbilities());
-        System.out.println("------------- Turn: " + Turn + " " + player_turn + "'s Turn , Choose an action -------------");
+        for (Player player : players){
+
+            System.out.print("PL"+player.getID()+ "Score: "+ player.getScore() + " | ");
+
+        }
+        System.out.println();
+
+        for (Player player : players){
+
+            System.out.print("PL"+player.getID()+ "HP: "+ player.getHp() + " | ");
+
+        }
+        System.out.println();
+
+        for (Player player : players){
+
+            System.out.print("PL"+player.getID()+ " Abilities -> "+ player.getAbilities() + "  ");
+
+        }
+        System.out.println();
+        System.out.println("------------- Turn: " + Turn + " PL" + currentPlayer.getID() + "'s Turn , Choose an action -------------");
         System.out.println("W. Move Up - A. Move Left - S. Move Down - D. Move Right - D. Destruction - L. Long Jump - S. Spawn Trap");
         System.out.println("in order to use your abilities first Enter the Direction key then the key representing the ability (e.g., DT)");
-    
-    
+
     }
 
-    public static boolean isGameOver(List<Player> player) {
+    public static boolean isGameOver() {
 
         String filePath = "gameState.json";
 
+        for (Player player : players){
 
-        if (player.get(0).getHp() <= 0){
-            System.out.println("Player1 has died.\n Player 2 WON" );
-            reset();
-            return true;
+            if(player.getScore() >= game_req_2_win){
+                System.out.println("Player"+player.getID()+ " has reached maximum score. Winner winner chicken dinner");
+                reset();
+                return true;
+            }
+            else if (player.getHp() <= 0){
+                System.out.println("Player"+player.getID()+" has died.\n");
+                
+                
+                players.remove(player);
+                
+                if (players.size() == 1){
 
+                    System.out.println("Player"+players.get(0).getID()+ " is the last man standing. Winner winner chicken dinner");
 
-        }
-        else if (player.get(1).getHp() <= 0){
-            System.out.println("Player2 has died.\n Player 1 WON");
-            reset();
-            return true;
-        }
-        else if (player.get(0).getScore() >= game_req_2_win){
-            System.out.println("Player 1 has reached "+ game_req_2_win +  "points. Winner winner chicken dinner");
+                    reset();
+                    return true;
 
-            reset();
-
-            return true;
-        }
-        else if (player.get(1).getScore() >= game_req_2_win){
-
-            System.out.println("Player 2 has reacehd " + game_req_2_win + "points. Winner winner chicken dinner");
-            reset();
-            return true;
+                }
+            }   
+            
         }
 
         return false;
     }
 
-    public static void continueLoadedGame(List<Player> players, Tile[][] tiles, int turn, String player_turn) {
+    public static void continueLoadedGame(List<Player> players, Tile[][] tiles, int turn, String player_turn, int mode1) {
         Game.players = players;
         Game.Turn = turn;
-        Game.player_turn = player_turn;
-        Game.gameBoard = new Gameboardimplement(players);
+
+        switch (mode1){
+
+            case 2:
+
+            mode = Playermode.TWOPLAYER_MODE;
+
+            break;
+
+            case 4:
+
+            mode = Playermode.FOURPLAYER_MODE;
+
+        }
+
+
+
+        Game.gameBoard = new Gameboardimplement(players, mode);
         Gameboardimplement.setTiles(tiles);
 
-        Player currentPlayer = (turn % 2 == 0) ? players.get(1) : players.get(0);
+        currentPlayer = players.get(Character.getNumericValue(player_turn.charAt(2)) -1 );
         gameBoard.display(players, currentPlayer);
-        displayStatus(players.get(0), players.get(1));
+        displayStatus();
         gameLoop();
     }
 
@@ -217,7 +281,7 @@ public class Game {
                 filewriter2.write("[]");
                 players.clear();
                 Turn = 1;
-                player_turn = "PL1";
+                currentPlayer = new Player(1, new Point(9,0));
             }
 
         } catch (IOException e) {

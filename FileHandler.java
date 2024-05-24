@@ -19,7 +19,7 @@ public class FileHandler {
 
     public static final int SIZE = 10;
 
-    public static void saveGameState(String filePath, Tile[][] tiles, List<Player> players, int turn, String player_turn) {
+    public static void saveGameState(String filePath, Tile[][] tiles, List<Player> players, int turn, String player_turn, Playermode mode) {
         Map<String, JSONArray> tilePointsMap = new HashMap<>();
         for (Tile.Type type : Tile.Type.values()) {
             tilePointsMap.put(type.name(), new JSONArray());
@@ -59,6 +59,20 @@ public class FileHandler {
         gameState.put("turn", turn);
         gameState.put("player_turn", player_turn);
 
+        int modeplayer = 0;
+
+        switch (mode){
+
+            case TWOPLAYER_MODE:
+            modeplayer = 2;
+            break;
+            case FOURPLAYER_MODE:
+            modeplayer = 4;
+
+    
+        }
+        gameState.put("mode", modeplayer);
+
         try (FileWriter file = new FileWriter(filePath)) {
             file.write(gameState.toString(4));
         } catch (IOException e) {
@@ -76,10 +90,12 @@ public class FileHandler {
 
             Tile[][] tiles = loadTiles(json);
 
+            int mode = loadgamemode(json);
+
             int turn = json.getInt("turn");
             String player_turn = json.getString("player_turn");
 
-            Game.continueLoadedGame(players, tiles, turn, player_turn);
+            Game.continueLoadedGame(players, tiles, turn, player_turn, mode);
             
 
         } catch (IOException e) {
@@ -138,7 +154,7 @@ public class FileHandler {
     public static Tile[][] loadTiles(JSONObject json) {
         Tile[][] tiles = new Tile[SIZE][SIZE];
         for (String type : json.keySet()) {
-            if (type.equals("players") || type.equals("turn") || type.equals("player_turn")) continue;
+            if (type.equals("players") || type.equals("turn") || type.equals("player_turn") || type.equals("mode")) continue;
             JSONArray tileArray = json.getJSONArray(type);
             for (int i = 0; i < tileArray.length(); i++) {
                 JSONObject tileObj = tileArray.getJSONObject(i);
@@ -150,7 +166,17 @@ public class FileHandler {
         }
         return tiles;
     }
+    public static int loadgamemode(JSONObject json){
+        for (String type : json.keySet()) {
 
+            if (type.equals("players") || type.equals("turn") || type.equals("player_turn")) continue;
+
+        int mode = json.getInt("mode");
+
+        return mode;
+        }
+    return 0;
+    }
 
     public static void GameloggerSave(){
 
