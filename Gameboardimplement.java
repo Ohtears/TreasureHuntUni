@@ -379,18 +379,34 @@ public class Gameboardimplement implements Gameboard {
         return true;
     }
 
-    public static boolean collision(int x, int y, Player player, List<Player> players){
+    public static void show_collision(){
 
 
 
-        if (tiles[y][x].getteroccupation() == true){
+    }
+
+    public static boolean collision(int x, int y, Player player, List<Player> players, Point translation){
+
+        // tiles[y][x].setteroccupation(false);
+
+        Point move = new Point(x,y);
+
+        move.translate(translation.x, translation.y);
+
+
+        if (tiles[move.y][move.x].getteroccupation()){
 
             System.out.println("You cannot move to an occupied tile");
             return false;
 
 
         }
+        tiles[y][x].setteroccupation(false); 
+        tiles[move.y][move.x].setteroccupation(true); 
+
         return true;
+
+
 
 
     //     if (player.getID() == 1){
@@ -452,6 +468,14 @@ public class Gameboardimplement implements Gameboard {
 
 
         else if (randomNumber <= 60) { //10%
+
+            Random random3 = new Random();
+
+            int randomindex = random3.nextInt(players.size());
+
+            Player randomPlayer = players.get(randomindex);
+
+
 
             if (players.get(0).getID() == (player.getID())){
                 

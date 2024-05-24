@@ -189,7 +189,8 @@ public class Player {
                 (player.getPosition().x != boardWidth - 1 || player.getPosition().y - 1 != 0)) {
     
                 if (Gameboardimplement.MoveChecker(player.getPosition().x, player.getPosition().y - 1, player, players)) {
-                    if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y - 1, player, players)) {
+                    Point translation = new Point(0,-1);
+                    if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y, player, players, translation)) {
                         player.getPosition().translate(0, -1);
                         JSONObject log = new JSONObject();
                         String symbol = Tile.TileSymbol(new Point(player.getPosition()));
@@ -228,7 +229,8 @@ public class Player {
                 (player.getPosition().x - 1 != boardWidth - 1 || player.getPosition().y != 0)) {
     
                 if (Gameboardimplement.MoveChecker(player.getPosition().x - 1, player.getPosition().y, player, players)) {
-                    if (Gameboardimplement.collision(player.getPosition().x - 1, player.getPosition().y, player, players)) {
+                    Point translation = new Point(-1,0);
+                    if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y, player, players, translation)) {
                         player.getPosition().translate(-1, 0);
                         JSONObject log = new JSONObject();
                         String symbol = Tile.TileSymbol(new Point(player.getPosition()));
@@ -266,7 +268,8 @@ public class Player {
                 (player.getPosition().x != boardWidth - 1 || player.getPosition().y + 1 != 0)) {
     
                 if (Gameboardimplement.MoveChecker(player.getPosition().x, player.getPosition().y + 1, player, players)) {
-                    if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y + 1, player, players)) {
+                    Point translation = new Point(0,1);
+                    if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y, player, players, translation)) {
                         player.getPosition().translate(0, 1);
                         JSONObject log = new JSONObject();
                         String symbol = Tile.TileSymbol(new Point(player.getPosition()));
@@ -307,7 +310,8 @@ public class Player {
                 (player.getPosition().x + 1 != boardWidth - 1 || player.getPosition().y != 0)) {
     
                 if (Gameboardimplement.MoveChecker(player.getPosition().x + 1, player.getPosition().y, player, players)) {
-                    if (Gameboardimplement.collision(player.getPosition().x + 1, player.getPosition().y, player, players)) {
+                    Point translation = new Point(1,0);
+                    if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y, player, players, translation)) {
                         player.getPosition().translate(1, 0);
                         JSONObject log = new JSONObject();
                         String symbol = Tile.TileSymbol(new Point(player.getPosition()));
@@ -502,132 +506,136 @@ public class Player {
         }
     }
     
-        public void longJump(char direction, Player player, List<Player> players, Playermode mode) {
-            int boardWidth=10;
-            int boardHeight=10;
-        
-            switch (mode){
+    public void longJump(char direction, Player player, List<Player> players, Playermode mode) {
+        int boardWidth=10;
+        int boardHeight=10;
+    
+        switch (mode){
 
-                case TWOPLAYER_MODE:
-                    boardWidth = 10;
-                    boardHeight = 10;
-                break;
+            case TWOPLAYER_MODE:
+                boardWidth = 10;
+                boardHeight = 10;
+            break;
 
-                case FOURPLAYER_MODE:
-                    boardWidth = 20;
-                    boardHeight = 10;
-                
-                break;
+            case FOURPLAYER_MODE:
+                boardWidth = 20;
+                boardHeight = 10;
+            
+            break;
+
+        }
+        switch (direction){
+
+            case 'W':
+            if (this.position.y > 0) {
+                if (Gameboardimplement.LongJump(player)){
+                    if (Gameboardimplement.MoveChecker(position.x, position.y - 2, player, players)){
+                        Point translation = new Point(0,-2);
+                        if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y, player, players, translation)) {
+                    
+                        this.position.translate(0, -2); 
+                        JSONObject log = new JSONObject();
+                        String symbol = Tile.TileSymbol(new Point(this.position));
+                        log.put("LongJump " + "Player " + player.getID(), symbol);
+                        
+                        FileHandler.appendlog(log);
+                        // this.Ability_long_jump --;
+                    }}
+                    // else {
+
+                    //     System.out.println("You cannot jump there!");
+                        // this.Ability_long_jump --;
+
+                    //}
+                    }
+            } else {
+                System.out.println("LongJump upwards not possible.");
+                // this.Ability_long_jump --;
 
             }
-            switch (direction){
-    
-                case 'W':
-                if (this.position.y > 0) {
-                    if (Gameboardimplement.LongJump(player)){
-                        if (Gameboardimplement.MoveChecker(position.x, position.y - 2, player, players)){
+            break;
+            case 'A':
+            if (this.position.x > 0) {
+                if (Gameboardimplement.LongJump(player)){
+                    if (Gameboardimplement.MoveChecker(position.x - 2, position.y, player, players)){
+                        Point translation = new Point(-2,0);
+                        if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y, player, players, translation)) {
+                        this.position.translate(-2, 0);  
+                        JSONObject log = new JSONObject();
+                        String symbol = Tile.TileSymbol(new Point(this.position));
+                        log.put("LongJump " + "Player " + player.getID(), symbol);
+                        FileHandler.appendlog(log);
 
+                        // this.Ability_long_jump --;
+                }}
+                    // else {
+
+                    //     System.out.println("You cannot jump there!");
+                        // this.Ability_long_jump --;
+
+                    //}
+                }
+            } else {
+                System.out.println("LongJump leftwards not possible.");
+                // this.Ability_long_jump --;
+
+            }
+            break;
+
+            case 'S':
+            if (this.position.y < boardHeight) {
+                if (Gameboardimplement.LongJump(player)){
+                    if (Gameboardimplement.MoveChecker(position.x, position.y + 2, player, players)){
+                        Point translation = new Point(0,1);
+                        if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y, player, players, translation)) {
+
+                        this.position.translate(0, 1);
+                        JSONObject log = new JSONObject();
+                        String symbol = Tile.TileSymbol(new Point(this.position));
+                        log.put("LongJump " + "Player " + player.getID(), symbol);
+                        FileHandler.appendlog(log);
+
+                        // this.Ability_long_jump --;
+                    }}
+                    // else {
+
+                    //     System.out.println("You cannot jump there!");
+                    //}
                         
-                            this.position.translate(0, -2); 
-                            JSONObject log = new JSONObject();
-                            String symbol = Tile.TileSymbol(new Point(this.position));
-                            log.put("LongJump " + "Player " + player.getID(), symbol);
-                            
-                            FileHandler.appendlog(log);
-                            // this.Ability_long_jump --;
-                        }
-                        // else {
-
-                        //     System.out.println("You cannot jump there!");
-                            // this.Ability_long_jump --;
-
-                        //}
-                        }
-                } else {
-                    System.out.println("LongJump upwards not possible.");
-                    // this.Ability_long_jump --;
-
                 }
-                break;
-                case 'A':
-                if (this.position.x > 0) {
-                    if (Gameboardimplement.LongJump(player)){
-                        if (Gameboardimplement.MoveChecker(position.x - 2, position.y, player, players)){
+            } else {
+                System.out.println("LongJump downwards not possible.");
+                
+            }
+            break;
 
-                            this.position.translate(-2, 0);  
-                            JSONObject log = new JSONObject();
-                            String symbol = Tile.TileSymbol(new Point(this.position));
-                            log.put("LongJump " + "Player " + player.getID(), symbol);
-                            FileHandler.appendlog(log);
+            case 'D':
+            if (this.position.x < boardWidth) {
+                if (Gameboardimplement.LongJump(player)){
+                    if (Gameboardimplement.MoveChecker(position.x + 2, position.y, player, players)){
+                        Point translation = new Point(2,0);
+                        if (Gameboardimplement.collision(player.getPosition().x, player.getPosition().y, player, players, translation)) {
+                        
+                        this.position.translate(2, 0); 
+                        JSONObject log = new JSONObject();
+                        String symbol = Tile.TileSymbol(new Point(this.position));
+                        log.put("LongJump " + "Player " + player.getID(), symbol);
+                        FileHandler.appendlog(log);
 
-                            // this.Ability_long_jump --;
-                    }
-                        // else {
+                        // this.Ability_long_jump --;
+                    }}
+                    // else {
 
-                        //     System.out.println("You cannot jump there!");
-                            // this.Ability_long_jump --;
-
-                       //}
-                    }
-                } else {
-                    System.out.println("LongJump leftwards not possible.");
-                    // this.Ability_long_jump --;
-
+                    //     System.out.println("You cannot jump there!");
+                    //}
                 }
-                break;
-    
-                case 'S':
-                if (this.position.y < boardHeight) {
-                    if (Gameboardimplement.LongJump(player)){
-                        if (Gameboardimplement.MoveChecker(position.x, position.y + 2, player, players)){
-
-
-                            this.position.translate(0, 2);
-                            JSONObject log = new JSONObject();
-                            String symbol = Tile.TileSymbol(new Point(this.position));
-                            log.put("LongJump " + "Player " + player.getID(), symbol);
-                            FileHandler.appendlog(log);
-
-                            // this.Ability_long_jump --;
-                        }
-                        // else {
-
-                        //     System.out.println("You cannot jump there!");
-                        //}
-                            
-                    }
-                } else {
-                    System.out.println("LongJump downwards not possible.");
-                    
-                }
-                break;
-    
-                case 'D':
-                if (this.position.x < boardWidth) {
-                    if (Gameboardimplement.LongJump(player)){
-                        if (Gameboardimplement.MoveChecker(position.x + 2, position.y, player, players)){
-
-                            
-                            this.position.translate(2, 0); 
-                            JSONObject log = new JSONObject();
-                            String symbol = Tile.TileSymbol(new Point(this.position));
-                            log.put("LongJump " + "Player " + player.getID(), symbol);
-                            FileHandler.appendlog(log);
-
-                            // this.Ability_long_jump --;
-                        }
-                        // else {
-
-                        //     System.out.println("You cannot jump there!");
-                        //}
-                    }
-                } else {
-                    System.out.println("LongJump rightwards not possible.");
-                }
-                break;
-            
-        }
+            } else {
+                System.out.println("LongJump rightwards not possible.");
+            }
+            break;
+        
     }
+}
 
 
 }

@@ -20,13 +20,15 @@ public class Tile {
         this.occupied = false;
     }
 
+
+    
     public Tile.Type getType() {
         return type;
     }
 
-    public void setteroccupation(){
+    public void setteroccupation(boolean occupation){
 
-        this.occupied = true;
+        this.occupied = occupation;
 
     }
     public boolean getteroccupation(){

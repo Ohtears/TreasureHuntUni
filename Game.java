@@ -79,8 +79,15 @@ public class Game {
 
         Scanner scanner = new Scanner(System.in);
 
-        while (true) {
 
+        while (true) {
+            try{
+            if (scanner.nextInt() == 0){
+                System.out.println("You are returning to the main menu");
+                players.clear();
+                break;
+            }}
+            catch (Exception e){}
             String action = scanner.nextLine();
             if (processAction(action)) {
 
@@ -113,11 +120,6 @@ public class Game {
 
         char direction = action.charAt(0);
         char ability = action.length() > 1 ? action.charAt(1) : '\0';  
-
-        if (direction == '0'){
-            System.out.println("You are returning to the main menu");
-            Main.main(null);
-        }
 
 
         switch (direction) {
