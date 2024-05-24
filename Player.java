@@ -607,7 +607,7 @@ public class Player {
                     if (Gameboardimplement.LongJump(player)){
                         if (Gameboardimplement.MoveChecker(position.x + 2, position.y, player, players)){
 
-
+                            
                             this.position.translate(2, 0); 
                             JSONObject log = new JSONObject();
                             String symbol = Tile.TileSymbol(new Point(this.position));

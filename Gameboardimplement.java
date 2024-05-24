@@ -381,24 +381,36 @@ public class Gameboardimplement implements Gameboard {
 
     public static boolean collision(int x, int y, Player player, List<Player> players){
 
-        if (player.getID() == 1){
-
-            if (new Point(x,y).equals(players.get(1).getPosition())){
-
-                System.out.println("You cannot move to an occupied tile");
-                return false;
-        }}
-        else if (player.getID() == 2){
-
-            if (new Point(x,y).equals(players.get(0).getPosition())){;
 
 
-                System.out.println("You cannot move to an occupied tile");
-                return false;
-            }
+        if (tiles[y][x].getteroccupation() == true){
+
+            System.out.println("You cannot move to an occupied tile");
+            return false;
+
+
         }
         return true;
-    }
+
+
+    //     if (player.getID() == 1){
+
+    //         if (new Point(x,y).equals(players.get(1).getPosition())){
+
+    //             System.out.println("You cannot move to an occupied tile");
+    //             return false;
+    //     }}
+    //     else if (player.getID() == 2){
+
+    //         if (new Point(x,y).equals(players.get(0).getPosition())){;
+
+
+    //             System.out.println("You cannot move to an occupied tile");
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+ }
 
     public static boolean Spin(Player player, List<Player> players){
 
