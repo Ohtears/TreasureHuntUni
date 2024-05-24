@@ -153,26 +153,27 @@ public class FileHandler {
 
     public static void GameloggerSave(){
 
-        try {
-            FileWriter fileWriter = new FileWriter("GameLog.json", true); 
-           
-        } catch (IOException e) {
-            System.out.println("No game log found");
-        }
-
-
-    }
-
-    public static void Gameloggerreset(){
-
         String filePath = "GameLog.json";
 
         try (FileWriter fileWriter = new FileWriter(filePath)) {
-            fileWriter.write("{}");
+            fileWriter.write("[]");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
+
+    // public static void Gameloggerreset(){
+
+    //     String filePath = "GameLog.json";
+
+    //     try (FileWriter fileWriter = new FileWriter(filePath)) {
+    //         fileWriter.write("[]");
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     public static void appendlog(JSONObject logdata){
 

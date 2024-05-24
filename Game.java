@@ -33,6 +33,9 @@ public class Game {
 
         displayStatus(player1, player2);
 
+        FileHandler.GameloggerSave();
+
+
         gameLoop();
 
     }
@@ -56,7 +59,6 @@ public class Game {
                 displayStatus(players.get(0), players.get(1));
 
                 FileHandler.saveGameState("gameState.json", Gameboardimplement.tiles, players, Turn, player_turn);
-
             }
 
 
@@ -164,6 +166,9 @@ public class Game {
             System.out.println("Player1 has died.\n Player 2 WON" );
             try (FileWriter fileWriter = new FileWriter(filePath)) {
                 fileWriter.write("{}");
+                try (FileWriter filewriter2 = new FileWriter("GameLog.json")){
+                    filewriter2.write("[]");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -175,6 +180,10 @@ public class Game {
             System.out.println("Player2 has died.\n Player 1 WON");
             try (FileWriter fileWriter = new FileWriter(filePath)) {
                 fileWriter.write("{}");
+                try (FileWriter filewriter2 = new FileWriter("GameLog.json")){
+                    filewriter2.write("[]");
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -184,6 +193,10 @@ public class Game {
             System.out.println("Player 1 has reached "+ game_req_2_win +  "points. Winner winner chicken dinner");
             try (FileWriter fileWriter = new FileWriter(filePath)) {
                 fileWriter.write("{}");
+                try (FileWriter filewriter2 = new FileWriter("GameLog.json")){
+                    filewriter2.write("[]");
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -194,6 +207,10 @@ public class Game {
             System.out.println("Player 2 has reacehd " + game_req_2_win + "points. Winner winner chicken dinner");
             try (FileWriter fileWriter = new FileWriter(filePath)) {
                 fileWriter.write("{}");
+                try (FileWriter filewriter2 = new FileWriter("GameLog.json")){
+                    filewriter2.write("[]");
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
