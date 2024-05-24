@@ -9,16 +9,32 @@ public class Tile {
     private int x;
     private int y;
 
+    private boolean occupied;
+
     private Type type;
     
     public Tile(int x, int y, Type type) {
         this.x = x;
         this.y = y;
         this.type = type;
+        this.occupied = false;
     }
 
+
+    
     public Tile.Type getType() {
         return type;
+    }
+
+    public void setteroccupation(boolean occupation){
+
+        this.occupied = occupation;
+
+    }
+    public boolean getteroccupation(){
+
+        return this.occupied;
+
     }
 
     public String getSymbol() {

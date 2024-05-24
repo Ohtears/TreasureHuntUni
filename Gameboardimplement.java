@@ -9,7 +9,10 @@ public class Gameboardimplement implements Gameboard {
     
     // private static final int DENSITY = 2;
 
-    private static final int SIZE = 10;
+    // private static final int SIZE = 10;
+    public static int sizex;
+
+    public static int sizey;
 
     private static final double BOMB_PERCENTAGE = 0.3;
     private static final double WALL_PERCENTAGE = 0.2;
@@ -20,49 +23,76 @@ public class Gameboardimplement implements Gameboard {
         Gameboardimplement.tiles = loadedTiles;
     }
 
-    public Gameboardimplement(List<Player> players) {
-        Gameboardimplement.tiles = new Tile[SIZE][SIZE];
+    public Gameboardimplement(List<Player> players, Playermode mode) {
+
+        switch (mode){
+
+            case TWOPLAYER_MODE:
+
+            sizex = 10;
+            sizey = 10;
+
+            break;
+
+            case FOURPLAYER_MODE:
+            sizex= 10;
+            sizey = 20;
+            break;
+        }
+
+        Gameboardimplement.tiles = new Tile[sizex][sizey];
+
         initializeBoard();
     }
     private void initializeBoard() {
 
-        int totalTiles = SIZE * SIZE;
+
+
+        int totalTiles = sizex * sizey;
         int totalBombs = (int) (totalTiles * BOMB_PERCENTAGE);
         int totalWalls = (int) (totalTiles * WALL_PERCENTAGE);
 
         int bombs = totalBombs / 3; 
         int walls = totalWalls / 2; 
 
-        placeTiles(bombs, Tile.Type.BOMB);
-        placeTiles(bombs, Tile.Type.TNT);
-        placeTiles(bombs, Tile.Type.MOUSETRAP);
+        if (sizex == sizey){
 
-        placeTiles(walls, Tile.Type.UNBREAKABLEWALL);
-        placeTiles(walls, Tile.Type.BREAKABLEWALL);
+        tiles[0][0] = new Tile(0, 0, Tile.Type.PORTAL);
+        tiles[9][9] = new Tile(9, 9, Tile.Type.PORTAL);
+        }
 
-        placeTiles(1, Tile.Type.TREASURE);
 
-        placeTiles(1, Tile.Type.SPIN);
+        placeTiles(bombs, Tile.Type.BOMB, sizex, sizey);
+        placeTiles(bombs, Tile.Type.TNT, sizex, sizey);
+        placeTiles(bombs, Tile.Type.MOUSETRAP, sizex, sizey);
+
+        placeTiles(walls, Tile.Type.UNBREAKABLEWALL, sizex, sizey);
+        placeTiles(walls, Tile.Type.BREAKABLEWALL, sizex, sizey);
+
+        placeTiles(1, Tile.Type.TREASURE, sizex, sizey);
+
+        placeTiles(1, Tile.Type.SPIN, sizex, sizey);
 
         fillRemainingTiles();
     }
 
-    private void placeTiles(int totalTiles, Tile.Type tileType) {
+    private void placeTiles(int totalTiles, Tile.Type tileType, int sizex, int sizey) {
         Random random = new Random();
         while (totalTiles > 0) {
-            int x = random.nextInt(SIZE);
-            int y = random.nextInt(SIZE);
+            int x = random.nextInt(sizex);
+            int y = random.nextInt(sizey);
 
-            if (!((x == 0 || x == SIZE - 1) && (y == 0 || y == SIZE - 1))){
+            if (!((x == 0 || x == sizex - 1) && (y == 0 || y == sizey - 1))){
                 // && checkDensity(x, y, tileType)
                 tiles[x][y] = new Tile(x, y, tileType);
-                tiles[0][0] = new Tile(0, 0, Tile.Type.PORTAL);
-                tiles[9][9] = new Tile(9, 9, Tile.Type.PORTAL);
-
+             
                 totalTiles--;
             }
         }
     }
+
+
+
 
     // private boolean checkDensity(int x, int y, Tile.Type tileType) {
     //     int trapBombCount = 0;
@@ -79,8 +109,8 @@ public class Gameboardimplement implements Gameboard {
     // }
 
     private void fillRemainingTiles() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
+        for (int i = 0; i < sizex; i++) {
+            for (int j = 0; j < sizey; j++) {
                 if (tiles[i][j] == null) {
                     tiles[i][j] = new Tile(i, j, Tile.Type.EMPTY);
                 }
@@ -91,16 +121,22 @@ public class Gameboardimplement implements Gameboard {
     @Override
     public void display(List<Player> players, Player currentPlayer) {
         StringBuilder board = new StringBuilder();
-        
         int startX = Math.max(0, currentPlayer.getPosition().x - 2);
         int startY = Math.max(0, currentPlayer.getPosition().y - 2);
-        int endX = Math.min(SIZE, currentPlayer.getPosition().x + 3);
-        int endY = Math.min(SIZE, currentPlayer.getPosition().y + 3);
+        int endX = Math.min(sizey, currentPlayer.getPosition().x + 3);
+        int endY = Math.min(sizex, currentPlayer.getPosition().y + 3);
 
-        board.append("╔═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╗\n");
+        board.append("╔");
+        for (int i=0; i < sizey - 1; i++){
+
+            board.append("═════╦");
+
+        }
+        board.append("═════╗\n");
+
         
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
+        for (int i = 0; i < sizex; i++) {
+            for (int j = 0; j < sizey; j++) {
                 if (i >= startY && i < endY && j >= startX && j < endX) {
                     boolean playerPresent = false;
                     for (Player player : players) {
@@ -122,14 +158,28 @@ public class Gameboardimplement implements Gameboard {
             }
             board.append("║ "+(i+1)+"\n");
             
-            if (i < SIZE - 1) {
-                board.append("╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣───\n");
+            if (i < sizex - 1) {
+                board.append("╠");
+                for (int z=0; z < sizey - 1; z++){
+                    board.append("═════╬");
+                }
+                board.append("═════╣───\n");
+
             }
         }
+        board.append("╚");
+        for (int z=0; z < sizey - 1; z++){
+            board.append("═════╩");
+        }
+        board.append("═════╝\n");
+
         
-        board.append("╚═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╩═════╝\n");
-        board.append("   A  │  B  │  C  │  D  │  E  │  F  │  G  │  H  │  I  │  J  ");
-        board.append("\n");
+        board.append("   A  ");
+        for (int z=0; z< sizey - 1; z++){
+            char asci = (char)('B' + z);
+            board.append("│  " + asci+ "  ");
+        }
+
         
         System.out.println(board.toString());
     }
@@ -279,8 +329,8 @@ public class Gameboardimplement implements Gameboard {
                 int xnew, ynew;
 
                 do {
-                    xnew = random.nextInt(SIZE);
-                    ynew = random.nextInt(SIZE);
+                    xnew = random.nextInt(sizex);
+                    ynew = random.nextInt(sizey);
                 } while ((xnew == 9 && ynew == 0) || (xnew == 0 && ynew == 9));
         
                 tiles[xnew][ynew] = new Tile(xnew, ynew, Tile.Type.TREASURE);
@@ -295,8 +345,8 @@ public class Gameboardimplement implements Gameboard {
                 int xnew_spin, ynew_spin;
 
                 do {
-                    xnew_spin = Random.nextInt(SIZE);
-                    ynew_spin = Random.nextInt(SIZE);
+                    xnew_spin = Random.nextInt(sizex);
+                    ynew_spin = Random.nextInt(sizey);
                 } while ((xnew_spin == 9 && ynew_spin == 0) || (xnew_spin == 0 && ynew_spin == 9));
         
                 tiles[xnew_spin][ynew_spin] = new Tile(xnew_spin, ynew_spin, Tile.Type.SPIN);
@@ -329,26 +379,54 @@ public class Gameboardimplement implements Gameboard {
         return true;
     }
 
-    public static boolean collision(int x, int y, Player player, List<Player> players){
-
-        if (player.getID() == 1){
-
-            if (new Point(x,y).equals(players.get(1).getPosition())){
-
-                System.out.println("You cannot move to an occupied tile");
-                return false;
-        }}
-        else if (player.getID() == 2){
-
-            if (new Point(x,y).equals(players.get(0).getPosition())){;
+    public static void show_collision(){
 
 
-                System.out.println("You cannot move to an occupied tile");
-                return false;
-            }
-        }
-        return true;
+
     }
+
+    public static boolean collision(int x, int y, Player player, List<Player> players, Point translation){
+
+        // tiles[y][x].setteroccupation(false);
+
+        Point move = new Point(x,y);
+
+        move.translate(translation.x, translation.y);
+
+
+        if (tiles[move.y][move.x].getteroccupation()){
+
+            System.out.println("You cannot move to an occupied tile");
+            return false;
+
+
+        }
+        tiles[y][x].setteroccupation(false); 
+        tiles[move.y][move.x].setteroccupation(true); 
+
+        return true;
+
+
+
+
+    //     if (player.getID() == 1){
+
+    //         if (new Point(x,y).equals(players.get(1).getPosition())){
+
+    //             System.out.println("You cannot move to an occupied tile");
+    //             return false;
+    //     }}
+    //     else if (player.getID() == 2){
+
+    //         if (new Point(x,y).equals(players.get(0).getPosition())){;
+
+
+    //             System.out.println("You cannot move to an occupied tile");
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+ }
 
     public static boolean Spin(Player player, List<Player> players){
 
@@ -391,21 +469,40 @@ public class Gameboardimplement implements Gameboard {
 
         else if (randomNumber <= 60) { //10%
 
-            if (players.get(0).getID() == (player.getID())){
-                
-                Player playeralt = players.get(1);
-                        
-                playeralt.setPosition(new Point(9, 0));
-            
-        }
-            else if (players.get(1).getID() == player.getID()){
+            Random random3 = new Random();
 
-                Player playeralt = players.get(0);
-                        
-                playeralt.setPosition(new Point(0, 9));
+            int randomindex = random3.nextInt(players.size());
+            do {
+                randomindex = random.nextInt(players.size());
+            } while (players.get(randomindex).getID() == player.getID());
+
+            Player randomPlayer = players.get(randomindex);
+
+            switch (randomPlayer.getID()){
+
+                case 1:
+                randomPlayer.setPosition(new Point(0,9));
+
+                break;
+
+                case 2:
+                randomPlayer.setPosition(new Point(9,0));
+
+                break;
+
+                case 3:
+                randomPlayer.setPosition(new Point(19, 9));
+
+                break;
+
+                case 4:
+                randomPlayer.setPosition(new Point(0, 0));
+
+                break;
 
 
             }
+
         System.out.println("Your opponent has been teleported to their starting position!");
         return false;
         } 
@@ -428,8 +525,8 @@ public class Gameboardimplement implements Gameboard {
     public static void placeRandomTNTs(int count) {
         List<Point> emptyTiles = new ArrayList<>();
 
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
+        for (int i = 0; i < sizex; i++) {
+            for (int j = 0; j < sizey; j++) {
                 if (tiles[i][j].getType() == Tile.Type.EMPTY) {
                     emptyTiles.add(new Point(j, i));
                 }
@@ -448,8 +545,8 @@ public class Gameboardimplement implements Gameboard {
     public static void removeRandomTraps(int count) {
         List<Point> trapTiles = new ArrayList<>();
 
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
+        for (int i = 0; i < sizex; i++) {
+            for (int j = 0; j < sizey; j++) {
                 Tile.Type type = tiles[i][j].getType();
                 if (type .equals(Tile.Type.BOMB)  || type.equals(Tile.Type.MOUSETRAP ) || type.equals(Tile.Type.TNT)) {
                     trapTiles.add(new Point(j, i));
